@@ -1,0 +1,9 @@
+arc_c: {type: hf, name: allenai/ai2_arc, subset: ARC-Challenge, split: validation}
+truthfulqa_mc: {type: hf, name: EleutherAI/truthful_qa_mc, split: validation}
+logiqa: {type: hf, name: lucasmccabe/logiqa, split: validation}
+qasc: {type: hf, name: allenai/qasc, split: validation}
+strategyqa: {type: hf, name: voidful/StrategyQA, split: validation}
+openbookqa_closed: {type: hf, name: allenai/openbookqa, subset: main, split: validation, mode: closed}
+openbookqa_ctrl_open: {type: hf, name: allenai/openbookqa, subset: main, split: validation, mode: controlled_open}
+hellaswag: {type: hf, name: Rowan/hellaswag, split: validation}
+gpqa_diamond: {type: hf, name: fingertap/GPQA-Diamond, split: validation, optional: true}

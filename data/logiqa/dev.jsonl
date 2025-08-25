@@ -1,0 +1,1 @@
+{"id": "logiqa-001", "question": "All cats are mammals. Some mammals are black. Therefore:", "choices": {"A": "Some cats are black", "B": "All black animals are cats", "C": "No cats are black", "D": "None of the above"}, "answer": "D"}
