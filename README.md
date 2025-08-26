@@ -55,11 +55,6 @@ This uses **Hugging Face `datasets`** (and `tfds` when needed) to download/cache
 
 Exports uniform JSONL snapshots into data/{dataset}/dev.jsonl.
 
---- 
-## Run benchmark
-```bash
-python -m src.runners.run_benchmark   --benchmark configs/benchmark.yaml   --models configs/models.yaml   --datasets configs/datasets.yaml   --prompts configs/prompts.yaml
-```
 ---
 
 ## 🔹 Running Debates
