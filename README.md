@@ -9,7 +9,7 @@ We log **per-round information-theoretic metrics** and **LLM-based CRIT scores**
 ## 🔹 Features
 - **Debate Protocol**: 2 agents (A, B) exchange arguments in 6 rounds, probabilities + rationales per choice.
 - **Per-Round Judge**: Independent judge model evaluates outputs after each round, computes CRIT_A / CRIT_B.
-- **CRIT Scoring**: Rule-based algorithm (with optional BM25 fact index for OBQA/QASC corpora).
+- **CRIT Scoring**: LLM-based algorithm (with optional rule-base algorithm: BM25 fact index for OBQA/QASC corpora).
 - **Metrics**: KL Divergence, JSD, Wasserstein Distance, Mutual Information, Entropy, Information Gain, AvgCRIT.
 - **Datasets**: 8 benchmarks (ARC-C, TruthfulQA-MC, LogiQA, QASC, StrategyQA, OpenBookQA Closed, OpenBookQA Controlled Open, HellaSwag, optional GPQA-Diamond).
 - **Pairings**:  
