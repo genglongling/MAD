@@ -70,9 +70,8 @@ python -m src.runners.run_benchmark \
 
 Outputs:
 
-results/runs/{pairing}__{dataset}.jsonl → raw per-example with all rounds + judge outputs.
+results/runs/{pairing}__{dataset}.jsonl → raw per-example with all rounds outputs.
 
-results/metrics/{pairing}__{dataset}.json → aggregated metrics.
 ---
 
 ## 🔹 Metrics & Tables
