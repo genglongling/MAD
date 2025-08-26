@@ -1,8 +1,9 @@
-# Multi-Agent Debate QA (LangGraph, 6-Round Protocol + Judge + CRIT)
+# EVINCE: LLM-as-a-judge for Multi-Agent Debate QA via Information Theory 
 
 This repository runs **multi-agent debates** over multiple-choice QA datasets, using **LangGraph** pipelines.  
 Each debate consists of **6 rounds** (contentiousness 0.9 → 0.1), with a **judge invoked every round**.  
 We log **per-round information-theoretic metrics** and **LLM-based CRIT scores**.
+The systems support LangGraph + 6-Round Protocol + LLM-as-a-Judge (CRIT).
 
 ---
 
