@@ -1,13 +1,45 @@
-# Multi‑Agent Debate QA (LangGraph)
+# Multi-Agent Debate QA (LangGraph, 6-Round Protocol + Judge + CRIT)
 
-This repo runs three debate pairings (GPT‑5 + Claude‑4, GPT‑5 + Gemini‑2.5‑Pro, Claude‑4 + Gemini‑2.5‑Pro) on eight QA datasets and exports a LaTeX table.
+This repository runs **multi-agent debates** over multiple-choice QA datasets, using **LangGraph** pipelines.  
+Each debate consists of **6 rounds** (contentiousness 0.9 → 0.1), with a **judge invoked every round**.  
+We log **per-round information-theoretic metrics** and **rule-based CRIT scores**.
 
-## Install
+---
+
+## 🔹 Features
+- **Debate Protocol**: 2 agents (A, B) exchange arguments in 6 rounds, probabilities + rationales per choice.
+- **Per-Round Judge**: Independent judge model evaluates outputs after each round, computes CRIT_A / CRIT_B.
+- **CRIT Scoring**: Rule-based algorithm (with optional BM25 fact index for OBQA/QASC corpora).
+- **Metrics**: KL Divergence, JSD, Wasserstein Distance, Mutual Information, Entropy, Information Gain, AvgCRIT.
+- **Datasets**: 8 benchmarks (ARC-C, TruthfulQA-MC, LogiQA, QASC, StrategyQA, OpenBookQA Closed, OpenBookQA Controlled Open, HellaSwag, optional GPQA-Diamond).
+- **Pairings**:  
+  1. GPT-5 vs Claude-4  
+  2. GPT-5 vs Gemini-2.5-Pro  
+  3. Claude-4 vs Gemini-2.5-Pro  
+  4. GPT-5 vs GPT-5 (baseline self-debate)
+
+---
+
+## 🔹 Installation
 ```bash
-pip install -e .  # or: pip install -r requirements.txt
+git clone <this-repo>
+cd multi-agent-debate-qa
+pip install -r requirements.txt
+```
+Dependencies:
+
+langgraph, datasets, rank_bm25, orjson, python-dotenv
+
+plus OpenAI/Anthropic/Google API clients (depending on providers you use)
+
+---
+## 🔹 Datasets
+Download all QA datasets with one command:
+```bash
+bash scripts/download_datasets.sh
 ```
 
-## Datasets (automatic)
+This uses HuggingFace Datasets.
 ```bash
 bash scripts/download_datasets.sh
 ```
@@ -21,21 +53,76 @@ This uses **Hugging Face `datasets`** (and `tfds` when needed) to download/cache
 - HellaSwag (`Rowan/hellaswag`)
 - GPQA‑Diamond (`fingertap/GPQA-Diamond`, optional)
 
-The script also exports **uniform JSONL snapshots** to `data/*/dev.jsonl` for reproducible runs.
+Exports uniform JSONL snapshots into data/{dataset}/dev.jsonl.
 
+--- 
 ## Run benchmark
 ```bash
 python -m src.runners.run_benchmark   --benchmark configs/benchmark.yaml   --models configs/models.yaml   --datasets configs/datasets.yaml   --prompts configs/prompts.yaml
 ```
+---
 
-## Export LaTeX table
+## 🔹 Running Debates
+To run all 4 pairings × 8 datasets:
+
 ```bash
-python -m src.runners.export_table
-# -> results/tables/debate_table.tex
+python -m src.runners.run_benchmark \
+  --benchmark configs/benchmark.yaml \
+  --models configs/models.yaml \
+  --datasets configs/datasets.yaml \
+  --prompts configs/prompts.yaml
 ```
 
-## Configs
-- `configs/models.yaml`: model vendors & slugs for A/B/Judge
-- `configs/datasets.yaml`: points to HF dataset keys (or local paths)
-- `configs/prompts.yaml`: debate prompts & contentiousness schedule
-- `configs/benchmark.yaml`: pairings, datasets, systems
+Outputs:
+
+results/runs/{pairing}__{dataset}.jsonl → raw per-example with all rounds + judge outputs.
+
+results/metrics/{pairing}__{dataset}.json → aggregated metrics.
+---
+
+## 🔹 Metrics & Tables
+Export LaTeX tables:
+
+```bash
+# Accuracy table
+python -m src.runners.export_table
+
+# Info-theory metrics (per-round averages)
+python -m src.runners.export_table --metrics round
+```
+
+Tables are written under results/tables/.
+
+---
+## 🔹 Facts Index (Optional, for CRIT)
+For OBQA/QASC, you can build a fact index:
+
+```bash
+python scripts/build_fact_index.py --out data/facts/obqa_qasc_facts.jsonl
+```
+Then pass the path in configs/benchmark.yaml under facts_jsonl:.
+
+---
+## 🔹 Repo Structure
+```bash
+configs/
+  models.yaml        # Agent pairings
+  datasets.yaml      # Dataset configs
+  prompts.yaml       # Debate + judge prompts
+  benchmark.yaml     # Run all pairings × datasets
+src/
+  debate/
+    graph.py         # Debate pipeline (6 rounds, judge after each round)
+    prompts.py       # Parsing + schema validation
+    metrics.py       # Info-theoretic metrics
+    crit_rulebased.py# Rule-based CRIT scoring
+  datasets/          # Dataset loaders
+  runners/           # Run + export scripts
+scripts/
+  download_datasets.sh
+  build_fact_index.py
+results/
+  runs/              # Per-example outputs
+  metrics/           # Aggregates
+  tables/            # LaTeX tables
+```
