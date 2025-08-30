@@ -12,18 +12,50 @@ The systems support LangGraph + 6-Round Protocol + LLM-as-a-Judge (CRIT).
 - **Per-Round Judge**: Independent judge model evaluates outputs after each round, computes CRIT_A / CRIT_B.
 - **CRIT Scoring**: LLM-based algorithm using judge prompts to evaluate argument quality and reliability.
 - **Metrics**: KL Divergence, JSD, Wasserstein Distance, Mutual Information, Entropy, Information Gain, AvgCRIT.
-- **Datasets**: 8 benchmarks (ARC-C, TruthfulQA-MC, LogiQA, QASC, StrategyQA, OpenBookQA Closed, OpenBookQA Controlled Open, HellaSwag, optional GPQA-Diamond).
+- **Datasets**: 7 benchmarks covering arithmetic, medical knowledge, logic, commonsense, and ethical reasoning.
 - **Pairings**:  
-  1. Qwen2.5-7B-Instruct vs Qwen2.5-7B-Instruct (self-debate)
-  2. Qwen2.5-7B-Instruct vs Llama3.1-8B-Instruct
-  3. Llama3.1-8B-Instruct vs Llama3.1-8B-Instruct (self-debate)
+  1. Qwen2.5-7B-Instruct vs Qwen2.5-7B-Instruct (self-debate), Qwen2.5-7B-Instruct (Judge)
+  2. Llama3.1-8B-Instruct vs Llama3.1-8B-Instruct (self-debate), Llama3.1-8B-Instruct (Judge)
+  3. Qwen2.5-7B-Instruct vs Llama3.1-8B-Instruct
+---
+
+## 🔹 Code Structure
+
+```
+MAD/
+├── configs/                    # Configuration files
+│   ├── benchmark.yaml         # Main benchmark settings
+│   ├── datasets.yaml          # Dataset configurations
+│   ├── models.yaml            # Model pairings and settings
+│   └── prompts.yaml           # Debate and judge prompts
+├── data/                      # Local datasets
+│   └── arithmetic/
+│       └── dev.jsonl          # Custom arithmetic dataset (100 questions)
+├── results/                   # Output directory
+│   ├── runs/                  # Individual debate results
+│   ├── metrics/               # Aggregated metrics
+│   └── tables/                # LaTeX tables
+├── scripts/                   # Utility scripts
+│   ├── setup_local_models.py  # Download local models
+│   └── download_datasets.sh   # Download HuggingFace datasets
+└── src/                       # Source code
+    ├── debate/                # Core debate system
+    │   ├── graph.py           # LangGraph debate pipeline
+    │   ├── models.py          # Model wrappers (OpenAI, Local, etc.)
+    │   ├── prompts.py         # Response parsing and validation
+    │   └── metrics.py         # Information-theoretic metrics
+    ├── datasets/              # Dataset loaders
+    └── runners/               # Execution scripts
+        ├── run_benchmark.py   # Main benchmark runner
+        └── export_table.py    # Results export
+```
 
 ---
 
 ## 🔹 Installation
 ```bash
 git clone <this-repo>
-cd multi-agent-debate-qa
+cd MAD
 pip install -r requirements.txt
 ```
 
@@ -50,82 +82,204 @@ python scripts/setup_local_models.py --llama  # Llama3.1-8B-Instruct (~16GB)
 ---
 
 ## 🔹 Datasets
-Download all QA datasets with one command:
-```bash
-bash scripts/download_datasets.sh
-```
 
-This uses HuggingFace Datasets.
-Exports uniform JSONL snapshots into data/{dataset}/dev.jsonl.
+### Supported Datasets (7 total, 1,698 questions)
+
+1. **Arithmetic** (100 questions): Custom arithmetic reasoning dataset
+2. **GSM8K** (300 questions): Mathematical word problems
+3. **MMLU Professional Medicine** (272 questions): Medical knowledge assessment
+4. **MMLU Formal Logic** (126 questions): Logical reasoning problems
+5. **HellaSwag** (300 questions): Commonsense reasoning
+6. **CommonSenseQA** (300 questions): Commonsense question answering
+7. **HH-RLHF** (300 questions): Helpful and Harmless RLHF dataset
+
+### Download Datasets
+```bash
+# Download HuggingFace datasets
+bash scripts/download_datasets.sh
+
+# Custom arithmetic dataset is already included in data/arithmetic/dev.jsonl
+```
 
 ---
 
 ## 🔹 Running Debates
-To run all pairings × datasets:
 
+### Quick Start (Single Example)
 ```bash
-python3 -m src.runners.run_benchmark \
+# Run with just 1 example per dataset for testing
+python -m src.runners.run_benchmark \
   --benchmark configs/benchmark.yaml \
   --models configs/models.yaml \
   --datasets configs/datasets.yaml \
   --prompts configs/prompts.yaml
 ```
 
-To run specific pairings, edit `configs/benchmark.yaml` and uncomment the pairings you want to run.
-
-**Example: Run Qwen vs Llama only:**
-```yaml
-pairings:
-  - qwen_llama
+### Full Benchmark Run
+```bash
+# Run all pairings × datasets (1,698 questions total)
+python -m src.runners.run_benchmark \
+  --benchmark configs/benchmark.yaml \
+  --models configs/models.yaml \
+  --datasets configs/datasets.yaml \
+  --prompts configs/prompts.yaml
 ```
 
-Outputs:
+### Configuration Options
 
-results/runs/{pairing}__{dataset}.jsonl → raw per-example with all rounds + judge outputs.
+**Edit `configs/benchmark.yaml` to customize:**
+```yaml
+# Which pairings to run
+pairings:
+  - qwen_qwen      # Qwen self-debate
+  # - qwen_llama   # Qwen vs Llama
+  # - llama_llama  # Llama self-debate
 
-results/metrics/{pairing}__{dataset}.json → aggregated metrics.
+# Which datasets to run
+datasets:
+  - arithmetic     # Custom arithmetic dataset
+  - gsm8k          # Mathematical reasoning
+  - mmlu_pro_med   # Medical knowledge
+  - mmlu_formal_logic  # Logical reasoning
+  - hellaswag      # Commonsense reasoning
+  - commonsenseqa  # Commonsense QA
+  - hh_rlhf        # Ethical reasoning
+```
+
+**Edit `configs/datasets.yaml` to adjust dataset sizes:**
+```yaml
+# Example: Change GSM8K to use 100 questions instead of 300
+gsm8k: {type: hf, name: gsm8k, subset: main, split: test, max_examples: 100}
+```
 
 ---
 
-## 🔹 Metrics & Tables
-Export LaTeX tables:
+## 🔹 Outputs
 
+### Individual Results
+```
+results/runs/
+├── qwen_qwen_arithmetic_arithmetic_1.json
+├── qwen_qwen_gsm8k_gsm8k_1.json
+└── ...
+```
+
+Each file contains:
+- Complete debate transcript (6 rounds)
+- Agent responses with probabilities and rationales
+- Judge evaluations with CRIT scores
+- Information-theoretic metrics
+
+### Aggregated Metrics
+```
+results/metrics/
+└── all_results.json  # Summary of all experiments
+```
+
+### LaTeX Tables
 ```bash
-# Accuracy table
+# Export accuracy table
 python -m src.runners.export_table
 
-# Info-theory metrics (per-round averages)
+# Export per-round metrics
 python -m src.runners.export_table --metrics round
 ```
 
-Tables are written under results/tables/.
+---
+
+## 🔹 Debate Protocol
+
+### Round Structure
+1. **Round 1**: Initial analysis (contentiousness: 0.9)
+2. **Round 2**: Confrontational debate (contentiousness: 0.9)
+3. **Round 3**: Balanced discussion (contentiousness: 0.7)
+4. **Round 4**: Middle ground exploration (contentiousness: 0.5)
+5. **Round 5**: Supportive discussion (contentiousness: 0.3)
+6. **Round 6**: Final synthesis (contentiousness: 0.1)
+
+### Response Format
+Each agent generates:
+```json
+{
+  "output": {"A": 0.1, "B": 0.2, "C": 0.3, "D": 0.4},
+  "reason": {
+    "A": "Rationale for choice A",
+    "B": "Rationale for choice B",
+    "C": "Rationale for choice C",
+    "D": "Rationale for choice D"
+  }
+}
+```
+
+### Judge Evaluation
+After each round, the judge provides:
+```json
+{
+  "outputA": {"A": 0.1, "B": 0.2, "C": 0.3, "D": 0.4},
+  "outputB": {"A": 0.1, "B": 0.2, "C": 0.3, "D": 0.4},
+  "CRIT_A": 0.75,
+  "CRIT_B": 0.85,
+  "NOTE_A": "Evaluation of Agent A's arguments",
+  "NOTE_B": "Evaluation of Agent B's arguments"
+}
+```
 
 ---
 
-## 🔹 Repo Structure
+## 🔹 Metrics
+
+### Information-Theoretic Metrics
+- **KL Divergence**: Measures disagreement between agents
+- **Jensen-Shannon Distance**: Symmetric measure of distribution difference
+- **Wasserstein Distance**: Earth mover's distance between distributions
+- **Mutual Information**: Information shared between agents
+- **Entropy**: Uncertainty in agent responses
+- **Information Gain**: Reduction in uncertainty over rounds
+
+### CRIT Scores
+- **CRIT_A/CRIT_B**: Judge's evaluation of argument quality (0-1)
+- **AvgCRIT**: Average CRIT score across agents
+
+---
+
+## 🔹 Troubleshooting
+
+### Common Issues
+
+**Model Loading Errors:**
 ```bash
-configs/
-  models.yaml        # Agent pairings
-  datasets.yaml      # Dataset configs
-  prompts.yaml       # Debate + judge prompts
-  benchmark.yaml     # Run all pairings × datasets
-src/
-  debate/
-    graph.py         # Debate pipeline (6 rounds, judge after each round)
-    prompts.py       # Parsing + schema validation
-    metrics.py       # Info-theoretic metrics
-    models.py        # Model wrappers (OpenAI, Anthropic, Google, Local)
-    # LLM-based CRIT scoring (via judge prompts)
-  datasets/          # Dataset loaders
-  runners/           # Run + export scripts
-scripts/
-  download_datasets.sh
-  setup_local_models.py  # Setup script for local models
-  setup_qwen.py      # Setup script for Qwen2.5-7B-Instruct
-  setup_llama.py     # Setup script for Llama3.1-8B-Instruct
-  build_fact_index.py
-results/
-  runs/              # Per-example outputs
-  metrics/           # Aggregates
-  tables/            # LaTeX tables
+# Reinstall transformers with correct architecture
+pip install --upgrade --force-reinstall transformers torch
+```
+
+**Memory Issues:**
+```bash
+# Reduce batch size in configs/benchmark.yaml
+num_workers: 1
+batch_size: 1
+```
+
+**Dataset Loading Errors:**
+```bash
+# Check HuggingFace access for Llama models
+huggingface-cli login
+```
+
+### Performance Tips
+- Use GPU for local models (8GB+ VRAM recommended)
+- Reduce `max_examples` in datasets.yaml for faster testing
+- Use `num_workers: 1` for stability with local models
+
+---
+
+## 🔹 Citation
+
+If you use this code, please cite:
+```bibtex
+@article{evince2024,
+  title={EVINCE: LLM-as-a-judge for Multi-Agent Debate QA via Information Theory},
+  author={...},
+  journal={...},
+  year={2024}
+}
 ```
