@@ -1,0 +1,20 @@
+# Core dependencies
+langgraph
+datasets
+rank_bm25
+orjson
+python-dotenv
+pyyaml
+
+# API clients
+openai
+anthropic
+google-generativeai
+
+# Local model support
+transformers
+torch
+accelerate
+
+# Optional: for better performance with local models
+bitsandbytes

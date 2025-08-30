@@ -1,2 +1,362 @@
+contentiousness: {r1: 0.9, r2: 0.7, r3: 0.5, r4: 0.3, r5: 0.2, r6: 0.1}
+
 system_debater: |
-  You are a debater.
+  You are a careful multiple-choice reasoner. Always answer in STRICT JSON and nothing else.
+  Schema:
+  {
+    "output": {"A": pA, "B": pB, "C": pC, "D": pD},
+    "reason": {"A": rA, "B": rB, "C": rC, "D": rD}
+  }
+  Constraints:
+  - pA..pD are nonnegative and sum to 1 (normalized).
+  - Each rX is a short argumentative rationale for that option.
+  - Do not add any keys, prose, or explanations outside the JSON.
+
+system_judge: |
+  You are a rigorous, deterministic judge. Apply the CRIT algorithm directly and output STRICT JSON only.
+  Output schema:
+  {
+    "outputA": {"A": pA, "B": pB, "C": pC, "D": pD},
+    "outputB": {"A": pA, "B": pB, "C": pC, "D": pD},
+    "CRIT_A": float,
+    "CRIT_B": float,
+    "NOTE_A": str,
+    "NOTE_B": str
+  }
+  Rules:
+  - No prose outside JSON; adhere exactly to the schema above.
+  - Each output distribution is nonnegative and sums to 1.
+  - CRIT_A / CRIT_B ∈ [0,1], computed per CRIT steps below.
+  - NOTE_A / NOTE_B must concisely explain how γ (strength) and θ (reliability) were derived and aggregated from reasons and rival reasons, including any evidence used.
+
+judge_crit_instructions: |
+  CRIT: "Function Γ = CRIT(d)
+  Input: document d   Output: validation score Γ
+  Vars: Ω claim; R and R′ sets of reasons and rival reasons
+  Subs: CLAIM(), FINDDOC(), VALIDATE()
+  Begin
+  #1–#2 Identify in d the claim Ω. Find a set of supporting reasons R for Ω.
+  #3 For each r ∈ R evaluate r ⇒ Ω.
+     If CLAIM(r) then (γ_r, θ_r) = CRIT(FINDDOC(r)).
+     Else (γ_r, θ_r) = VALIDATE(r ⇒ Ω).
+  #4–#6–#7–#8 Find a set of rival reasons R′ against Ω.
+     #5 For each r′ ∈ R′ compute (γ_{r′}, θ_{r′}) = VALIDATE(r′ ⇒ Ω).
+     Compute a weighted sum Γ from {γ_r, θ_r, γ_{r′}, θ_{r′}}.
+     Analyze arguments to justify the final Γ score.
+     Reflect on transfer of CRIT to other contexts.
+  End"
+
+# ---------------- Round 1 (NA) ----------------
+user_round1_A: |
+  Round 1. You are presented with the following multiple-choice question, and provide your own analysis of output and reasoning:
+  Question: {question}
+  Choices: {choices_csv}
+
+  Output (strict JSON):
+  {{"output": {{"A": pA, "B": pB, "C": pC, "D": pD}}, "reason": {{"A": rA, "B": rB, "C": rC, "D": rD}}}}
+
+user_round1_B: |
+  Round 1. Refute A's points, then provide your own analysis.
+  Question: {question}
+  Choices: {choices_csv}
+  Your opponent Agent A said: {A_json}
+
+  Output (strict JSON):
+  {{"output": {{"A": pA, "B": pB, "C": pC, "D": pD}}, "reason": {{"A": rA, "B": rB, "C": rC, "D": rD}}}}
+
+user_judge_r1: |
+  Round: 1
+  Question: {question}
+  Choices: {choices_csv}
+
+  # Agent A (Round 1)
+  outputA: {A_output_json_r1}
+  reasonA: {A_reason_json_r1}
+
+  # Agent B (Round 1)
+  outputB: {B_output_json_r1}
+  reasonB: {B_reason_json_r1}
+
+  {judge_crit_instructions}
+
+  Output STRICT JSON only:
+  {{
+    "outputA": {{"A": pA, "B": pB, "C": pC, "D": pD}},
+    "outputB": {{"A": pA, "B": pB, "C": pC, "D": pD}},
+    "CRIT_A": float,
+    "CRIT_B": float,
+    "NOTE_A": "string",
+    "NOTE_B": "string"
+  }}
+
+# ---------------- Round 2 (0.9) ----------------
+user_round2_A: |
+  Round 2. You are presented with the following multiple-choice question:
+  Question: {question}
+  Choices: {choices_csv}
+
+  Contentiousness Level: 0.9
+  Tone: Highly confrontational; focused on raising strong ethical, scientific, and social objections.
+  Emphasis: Highlighting risks and downsides; ethical quandaries, unintended consequences, and exacerbation of inequalities.
+  Language: Definitive and polarizing, e.g., ``should NOT be allowed,'' ``unacceptable risks,'' ``inevitable disparities.''
+
+  Output (strict JSON):
+  {{"output": {{"A": pA, "B": pB, "C": pC, "D": pD}}, "reason": {{"A": rA, "B": rB, "C": rC, "D": rD}}}}
+
+user_round2_B: |
+  Round 2. Refute A's points, then provide your own analysis.
+  Question: {question}
+  Choices: {choices_csv}
+  Your opponent Agent A said: {A_json}
+
+  Contentiousness Level: 0.9
+  Tone: Highly confrontational; focused on raising strong ethical, scientific, and social objections.
+  Emphasis: Highlighting risks and downsides; ethical quandaries, unintended consequences, and exacerbation of inequalities.
+  Language: Definitive and polarizing, e.g., ``should NOT be allowed,'' ``unacceptable risks,'' ``inevitable disparities.''
+
+  Output (strict JSON):
+  {{"output": {{"A": pA, "B": pB, "C": pC, "D": pD}}, "reason": {{"A": rA, "B": rB, "C": rC, "D": rD}}}}
+
+user_judge_r2: |
+  Round: 2
+  Question: {question}
+  Choices: {choices_csv}
+
+  # Agent A (Round 2)
+  outputA: {A_output_json_r2}
+  reasonA: {A_reason_json_r2}
+
+  # Agent B (Round 2)
+  outputB: {B_output_json_r2}
+  reasonB: {B_reason_json_r2}
+
+  {judge_crit_instructions}
+
+  Output STRICT JSON only:
+  {{
+    "outputA": {{"A": pA, "B": pB, "C": pC, "D": pD}},
+    "outputB": {{"A": pA, "B": pB, "C": pC, "D": pD}},
+    "CRIT_A": float,
+    "CRIT_B": float,
+    "NOTE_A": "string",
+    "NOTE_B": "string"
+  }}
+
+# ---------------- Round 3 (0.7) ----------------
+user_round3_A: |
+  Round 3. Refute B's points, then provide your own updated output and reasoning.
+  Agent B refuted you: {B_json}
+  Question: {question}
+  Choices: {choices_csv}
+
+  Contentiousness Level: 0.7
+  Tone: Still confrontational but more open to potential benefits, albeit overshadowed by negatives.
+  Emphasis: Acknowledging that some frameworks could make it safer or more equitable, while cautioning against its use.
+  Language: Less polarizing; ``serious concerns remain,'' ``needs more scrutiny.''
+
+  Output (strict JSON):
+  {{"output": {{"A": pA, "B": pB, "C": pC, "D": pD}}, "reason": {{"A": rA, "B": rB, "C": rC, "D": rD}}}}
+
+user_round3_B: |
+  Round 3. Refute A's points, then provide your own updated output and reasoning.
+  Agent A responded: {A_json}
+  Question: {question}
+  Choices: {choices_csv}
+
+  Contentiousness Level: 0.7
+  Tone: Still confrontational but more open to potential benefits, albeit overshadowed by negatives.
+  Emphasis: Acknowledging that some frameworks could make it safer or more equitable, while cautioning against its use.
+  Language: Less polarizing; ``serious concerns remain,'' ``needs more scrutiny.''
+
+  Output (strict JSON):
+  {{"output": {{"A": pA, "B": pB, "C": pC, "D": pD}}, "reason": {{"A": rA, "B": rB, "C": rC, "D": rD}}}}
+
+user_judge_r3: |
+  Round: 3
+  Question: {question}
+  Choices: {choices_csv}
+
+  # Agent A (Round 3)
+  outputA: {A_output_json_r3}
+  reasonA: {A_reason_json_r3}
+
+  # Agent B (Round 3)
+  outputB: {B_output_json_r3}
+  reasonB: {B_reason_json_r3}
+
+  {judge_crit_instructions}
+
+  Output STRICT JSON only:
+  {{
+    "outputA": {{"A": pA, "B": pB, "C": pC, "D": pD}},
+    "outputB": {{"A": pA, "B": pB, "C": pC, "D": pD}},
+    "CRIT_A": float,
+    "CRIT_B": float,
+    "NOTE_A": "string",
+    "NOTE_B": "string"
+  }}
+
+# ---------------- Round 4 (0.5) ----------------
+user_round4_A: |
+  Round 4. Refute B's points, then provide your own updated output and reasoning.
+  Opponent B last: {B_json}
+  Question: {question}
+  Choices: {choices_csv}. 
+
+  Contentiousness Level: 0.5
+  Tone: Balanced; neither advocating strongly for nor against gene editing.
+  Emphasis: Equal weight on pros and cons; looking for a middle ground.
+  Language: Neutral; ``should be carefully considered,'' ``both benefits and risks.''
+
+  Output (strict JSON):
+  {{"output": {{"A": pA, "B": pB, "C": pC, "D": pD}}, "reason": {{"A": rA, "B": rB, "C": rC, "D": rD}}}}
+
+user_round4_B: |
+  Round 4. Refute A's points, then provide your own updated output and reasoning.
+  Opponent A last: {A_json}
+  Question: {question}
+  Choices: {choices_csv}. 
+
+  Contentiousness Level: 0.5
+  Tone: Balanced; neither advocating strongly for nor against gene editing.
+  Emphasis: Equal weight on pros and cons; looking for a middle ground.
+  Language: Neutral; ``should be carefully considered,'' ``both benefits and risks.''
+
+  Output (strict JSON):
+  {{"output": {{"A": pA, "B": pB, "C": pC, "D": pD}}, "reason": {{"A": rA, "B": rB, "C": rC, "D": rD}}}}
+
+user_judge_r4: |
+  Round: 4
+  Question: {question}
+  Choices: {choices_csv}
+
+  # Agent A (Round 4)
+  outputA: {A_output_json_r4}
+  reasonA: {A_reason_json_r4}
+
+  # Agent B (Round 4)
+  outputB: {B_output_json_r4}
+  reasonB: {B_reason_json_r4}
+
+  {judge_crit_instructions}
+
+  Output STRICT JSON only:
+  {{
+    "outputA": {{"A": pA, "B": pB, "C": pC, "D": pD}},
+    "outputB": {{"A": pA, "B": pB, "C": pC, "D": pD}},
+    "CRIT_A": float,
+    "CRIT_B": float,
+    "NOTE_A": "string",
+    "NOTE_B": "string"
+  }}
+
+# ---------------- Round 5 (0.3) ----------------
+user_round5_A: |
+  Round 5. Refute B's points, then provide your own updated output and reasoning.
+  Opponent B last: {B_json}
+  Question: {question}
+  Choices: {choices_csv}. 
+
+  Contentiousness Level: 0.3
+  Tone: More agreeable than confrontational, but maintaining reservations.
+  Emphasis: Supportive but cautious; focus on ensuring ethical and equitable use.
+  Language: Positive but careful; ``transformative potential,'' ``impetus to ensure.''
+
+  Output (strict JSON):
+  {{"output": {{"A": pA, "B": pB, "C": pC, "D": pD}}, "reason": {{"A": rA, "B": rB, "C": rC, "D": rD}}}}
+
+user_round5_B: |
+  Round 5. Refute A's points, then provide your own updated output and reasoning.
+  Opponent A last: {A_json}
+  Question: {question}
+  Choices: {choices_csv}. 
+
+  Contentiousness Level: 0.3
+  Tone: More agreeable than confrontational, but maintaining reservations.
+  Emphasis: Supportive but cautious; focus on ensuring ethical and equitable use.
+  Language: Positive but careful; ``transformative potential,'' ``impetus to ensure.''
+
+  Output (strict JSON):
+  {{"output": {{"A": pA, "B": pB, "C": pC, "D": pD}}, "reason": {{"A": rA, "B": rB, "C": rC, "D": rD}}}}
+
+user_judge_r5: |
+  Round: 5
+  Question: {question}
+  Choices: {choices_csv}
+
+  # Agent A (Round 5)
+  outputA: {A_output_json_r5}
+  reasonA: {A_reason_json_r5}
+
+  # Agent B (Round 5)
+  outputB: {B_output_json_r5}
+  reasonB: {B_reason_json_r5}
+
+  {judge_crit_instructions}
+
+  Output STRICT JSON only:
+  {{
+    "outputA": {{"A": pA, "B": pB, "C": pC, "D": pD}},
+    "outputB": {{"A": pA, "B": pB, "C": pC, "D": pD}},
+    "CRIT_A": float,
+    "CRIT_B": float,
+    "NOTE_A": "string",
+    "NOTE_B": "string"
+  }}
+
+
+# ---------------- Round 6 (0.1) ----------------
+user_round6_A: |
+  Final Round. Synthesize strongest points from both sides and provide updated output and collaborative conclusion.
+  Your last: {A_json}
+  Opponent last: {B_json}
+  Question: {question}
+  Choices: {choices_csv}. 
+
+  Contentiousness Level: 0.1
+  Tone: Completely agreeable and \newline supportive.
+  Emphasis: Fully focused on immense potential benefits; advocating for proactive adoption.
+  Language: Very positive; ``groundbreaking \newline advance,'' ``new era of possibilities.''
+
+  Output (strict JSON):
+  {{"output": {{"A": pA, "B": pB, "C": pC, "D": pD}}, "reason": {{"A": rA, "B": rB, "C": rC, "D": rD}}}}
+
+user_round6_B: |
+  Final Round. Synthesize strongest points from both sides and provide updated output and collaborative conclusion.
+  Your last: {B_json}
+  Opponent last: {A_json}
+  Question: {question}
+  Choices: {choices_csv}. 
+
+  Contentiousness Level: 0.1
+  Tone: Completely agreeable and \newline supportive.
+  Emphasis: Fully focused on immense potential benefits; advocating for proactive adoption.
+  Language: Very positive; ``groundbreaking \newline advance,'' ``new era of possibilities.''
+
+  Output (strict JSON):
+  {{"output": {{"A": pA, "B": pB, "C": pC, "D": pD}}, "reason": {{"A": rA, "B": rB, "C": rC, "D": rD}}}}
+
+user_judge_r6: |
+  Round: 6
+  Question: {question}
+  Choices: {choices_csv}
+
+  # Agent A (Round 6)
+  outputA: {A_output_json_r6}
+  reasonA: {A_reason_json_r6}
+
+  # Agent B (Round 6)
+  outputB: {B_output_json_r6}
+  reasonB: {B_reason_json_r6}
+
+  {judge_crit_instructions}
+
+  Output STRICT JSON only:
+  {{
+    "outputA": {{"A": pA, "B": pB, "C": pC, "D": pD}},
+    "outputB": {{"A": pA, "B": pB, "C": pC, "D": pD}},
+    "CRIT_A": float,
+    "CRIT_B": float,
+    "NOTE_A": "string",
+    "NOTE_B": "string"
+  }}

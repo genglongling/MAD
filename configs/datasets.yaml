@@ -1,9 +1,21 @@
-arc_c: {type: hf, name: allenai/ai2_arc, subset: ARC-Challenge, split: validation}
-truthfulqa_mc: {type: hf, name: EleutherAI/truthful_qa_mc, split: validation}
-logiqa: {type: hf, name: lucasmccabe/logiqa, split: validation}
-qasc: {type: hf, name: allenai/qasc, split: validation}
-strategyqa: {type: hf, name: voidful/StrategyQA, split: validation}
-openbookqa_closed: {type: hf, name: allenai/openbookqa, subset: main, split: validation, mode: closed}
-openbookqa_ctrl_open: {type: hf, name: allenai/openbookqa, subset: main, split: validation, mode: controlled_open}
-hellaswag: {type: hf, name: Rowan/hellaswag, split: validation}
-gpqa_diamond: {type: hf, name: fingertap/GPQA-Diamond, split: validation, optional: true}
+# Arithmetic reasoning - 100 generated arithmetic questions
+gsm8k: {type: hf, name: gsm8k, subset: main, split: test, max_examples: 300}
+
+# MMLU Professional Medicine - Full test split (272 questions)
+mmlu_pro_med: {type: hf, name: cais/mmlu, subset: professional_medicine, split: test, max_examples: 272}
+
+# MMLU Formal Logic - Full test split (126 questions)
+mmlu_formal_logic: {type: hf, name: cais/mmlu, subset: formal_logic, split: test, max_examples: 126}
+
+# Commonsense reasoning - Random 300 questions from test split
+hellaswag: {type: hf, name: Rowan/hellaswag, split: validation, max_examples: 300}
+
+# Commonsense QA - Random 300 questions from validation split
+commonsenseqa: {type: hf, name: commonsense_qa, split: validation, max_examples: 300}
+
+# Helpful and Harmless RLHF - Random 300 pairs from test split
+hh_rlhf: {type: hf, name: Anthropic/hh-rlhf, split: test, max_examples: 300}
+
+# Custom arithmetic dataset - 100 generated arithmetic questions
+arithmetic: {type: local, path: data/arithmetic/dev.jsonl, max_examples: 100}
+

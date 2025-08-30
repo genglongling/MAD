@@ -1,0 +1,348 @@
+[
+  {
+    "example_id": "Mercury_7085820",
+    "pairing": "gpt4_gpt4",
+    "question": "As water starts to freeze, the molecules of water",
+    "choices": {
+      "text": [
+        "gain thermal energy.",
+        "move more freely.",
+        "increase in size.",
+        "decrease in speed."
+      ],
+      "label": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ]
+    },
+    "answer": "",
+    "debate_state": {
+      "question": "As water starts to freeze, the molecules of water",
+      "choices": {
+        "text": [
+          "gain thermal energy.",
+          "move more freely.",
+          "increase in size.",
+          "decrease in speed."
+        ],
+        "label": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ]
+      },
+      "answer": "",
+      "id": "Mercury_7085820",
+      "sys_debater": "You are a careful multiple-choice reasoner. Always answer in STRICT JSON and nothing else.\nSchema:\n{\n  \"output\": {\"A\": pA, \"B\": pB, \"C\": pC, \"D\": pD},\n  \"reason\": {\"A\": rA, \"B\": rB, \"C\": rC, \"D\": rD}\n}\nConstraints:\n- pA..pD are nonnegative and sum to 1 (normalized).\n- Each rX is a short argumentative rationale for that option.\n- Do not add any keys, prose, or explanations outside the JSON.\n",
+      "sys_judge": "You are a rigorous, deterministic judge. Apply the CRIT algorithm directly and output STRICT JSON only.\nOutput schema:\n{\n  \"outputA\": {\"A\": pA, \"B\": pB, \"C\": pC, \"D\": pD},\n  \"outputB\": {\"A\": pA, \"B\": pB, \"C\": pC, \"D\": pD},\n  \"CRIT_A\": float,\n  \"CRIT_B\": float,\n  \"NOTE_A\": str,\n  \"NOTE_B\": str\n}\nRules:\n- No prose outside JSON; adhere exactly to the schema above.\n- Each output distribution is nonnegative and sums to 1.\n- CRIT_A / CRIT_B \u2208 [0,1], computed per CRIT steps below.\n- NOTE_A / NOTE_B must concisely explain how \u03b3 (strength) and \u03b8 (reliability) were derived and aggregated from reasons and rival reasons, including any evidence used.\n",
+      "judge_crit_instructions": "CRIT: \"Function \u0393 = CRIT(d)\nInput: document d   Output: validation score \u0393\nVars: \u03a9 claim; R and R\u2032 sets of reasons and rival reasons\nSubs: CLAIM(), FINDDOC(), VALIDATE()\nBegin\n#1\u2013#2 Identify in d the claim \u03a9. Find a set of supporting reasons R for \u03a9.\n#3 For each r \u2208 R evaluate r \u21d2 \u03a9.\n   If CLAIM(r) then (\u03b3_r, \u03b8_r) = CRIT(FINDDOC(r)).\n   Else (\u03b3_r, \u03b8_r) = VALIDATE(r \u21d2 \u03a9).\n#4\u2013#6\u2013#7\u2013#8 Find a set of rival reasons R\u2032 against \u03a9.\n   #5 For each r\u2032 \u2208 R\u2032 compute (\u03b3_{r\u2032}, \u03b8_{r\u2032}) = VALIDATE(r\u2032 \u21d2 \u03a9).\n   Compute a weighted sum \u0393 from {\u03b3_r, \u03b8_r, \u03b3_{r\u2032}, \u03b8_{r\u2032}}.\n   Analyze arguments to justify the final \u0393 score.\n   Reflect on transfer of CRIT to other contexts.\nEnd\"\n",
+      "u_r1_A": "You are presented with the following multiple-choice question:\nQuestion: {question}, Contentiousness Level: 0.9\nChoices: {choices_csv}\n\nTone: Highly confrontational; raise strong objections.\nEmphasis: Highlight risks, downsides, unintended consequences, inequities.\nLanguage: Definitive and polarizing.\n\nOutput (strict JSON):\n{{\"output\": {{\"A\": pA, \"B\": pB, \"C\": pC, \"D\": pD}}, \"reason\": {{\"A\": rA, \"B\": rB, \"C\": rC, \"D\": rD}}}}\n",
+      "u_r1_B": "Your opponent Agent A said: {A_json}\nRound 1 (0.9). Refute A's points, then provide your own analysis.\nOutput (strict JSON):\n{{\"output\": {{\"A\": pA, \"B\": pB, \"C\": pC, \"D\": pD}}, \"reason\": {{\"A\": rA, \"B\": rB, \"C\": rC, \"D\": rD}}}}\n",
+      "u_judge_r1": "Round: 1\nQuestion: {question}\nChoices: {choices_csv}\n\n# Agent A (Round 1)\noutputA: {A_output_json_r1}\nreasonA: {A_reason_json_r1}\n\n# Agent B (Round 1)\noutputB: {B_output_json_r1}\nreasonB: {B_reason_json_r1}\n\n{judge_crit_instructions}\n\nOutput STRICT JSON only:\n{{\n  \"outputA\": {{\"A\": pA, \"B\": pB, \"C\": pC, \"D\": pD}},\n  \"outputB\": {{\"A\": pA, \"B\": pB, \"C\": pC, \"D\": pD}},\n  \"CRIT_A\": float,\n  \"CRIT_B\": float,\n  \"NOTE_A\": \"string\",\n  \"NOTE_B\": \"string\"\n}}\n",
+      "u_r2_A": "Agent B refuted you: {B_json}\nQuestion: {question}, Contentiousness Level: 0.7\nChoices: {choices_csv}\n\nTone: Confrontational but more open to benefits.\nEmphasis: Acknowledge possible improvements while stressing risks.\n\nOutput (strict JSON):\n{{\"output\": {{\"A\": pA, \"B\": pB, \"C\": pC, \"D\": pD}}, \"reason\": {{\"A\": rA, \"B\": rB, \"C\": rC, \"D\": rD}}}}\n",
+      "u_r2_B": "Agent A responded: {A_json}\nRound 2 (0.7). Continue debate and revise your probabilities.\nOutput (strict JSON):\n{{\"output\": {{\"A\": pA, \"B\": pB, \"C\": pC, \"D\": pD}}, \"reason\": {{\"A\": rA, \"B\": rB, \"C\": rC, \"D\": rD}}}}\n",
+      "u_judge_r2": "Round: 2\nQuestion: {question}\nChoices: {choices_csv}\n\n# Agent A (Round 2)\noutputA: {A_output_json_r2}\nreasonA: {A_reason_json_r2}\n\n# Agent B (Round 2)\noutputB: {B_output_json_r2}\nreasonB: {B_reason_json_r2}\n\n{judge_crit_instructions}\n\nOutput STRICT JSON only:\n{{\n  \"outputA\": {{\"A\": pA, \"B\": pB, \"C\": pC, \"D\": pD}},\n  \"outputB\": {{\"A\": pA, \"B\": pB, \"C\": pC, \"D\": pD}},\n  \"CRIT_A\": float,\n  \"CRIT_B\": float,\n  \"NOTE_A\": \"string\",\n  \"NOTE_B\": \"string\"\n}}\n",
+      "u_r3_A": "Opponent B last: {B_json}\nQuestion: {question}, Contentiousness Level: 0.5\nChoices: {choices_csv}\n\nTone: Balanced; explore middle ground.\nEmphasis: Equal weight on pros and cons.\n\nOutput (strict JSON):\n{{\"output\": {{\"A\": pA, \"B\": pB, \"C\": pC, \"D\": pD}}, \"reason\": {{\"A\": rA, \"B\": rB, \"C\": rC, \"D\": rD}}}}\n",
+      "u_r3_B": "Opponent A last: {A_json}\nRound 3 (0.5). Provide a balanced update.\nOutput (strict JSON):\n{{\"output\": {{\"A\": pA, \"B\": pB, \"C\": pC, \"D\": pD}}, \"reason\": {{\"A\": rA, \"B\": rB, \"C\": rC, \"D\": rD}}}}\n",
+      "u_judge_r3": "Round: 3\nQuestion: {question}\nChoices: {choices_csv}\n\n# Agent A (Round 3)\noutputA: {A_output_json_r3}\nreasonA: {A_reason_json_r3}\n\n# Agent B (Round 3)\noutputB: {B_output_json_r3}\nreasonB: {B_reason_json_r3}\n\n{judge_crit_instructions}\n\nOutput STRICT JSON only:\n{{\n  \"outputA\": {{\"A\": pA, \"B\": pB, \"C\": pC, \"D\": pD}},\n  \"outputB\": {{\"A\": pA, \"B\": pB, \"C\": pC, \"D\": pD}},\n  \"CRIT_A\": float,\n  \"CRIT_B\": float,\n  \"NOTE_A\": \"string\",\n  \"NOTE_B\": \"string\"\n}}\n",
+      "u_r4_A": "Opponent B last: {B_json}\nQuestion: {question}, Contentiousness Level: 0.3\nChoices: {choices_csv}\n\nTone: More agreeable than confrontational; maintain reservations.\nEmphasis: Supportive but cautious.\n\nOutput (strict JSON):\n{{\"output\": {{\"A\": pA, \"B\": pB, \"C\": pC, \"D\": pD}}, \"reason\": {{\"A\": rA, \"B\": rB, \"C\": rC, \"D\": rD}}}}\n",
+      "u_r4_B": "Opponent A last: {A_json}\nRound 4 (0.3). Provide a cautious, supportive update.\nOutput (strict JSON):\n{{\"output\": {{\"A\": pA, \"B\": pB, \"C\": pC, \"D\": pD}}, \"reason\": {{\"A\": rA, \"B\": rB, \"C\": rC, \"D\": rD}}}}\n",
+      "u_judge_r4": "Round: 4\nQuestion: {question}\nChoices: {choices_csv}\n\n# Agent A (Round 4)\noutputA: {A_output_json_r4}\nreasonA: {A_reason_json_r4}\n\n# Agent B (Round 4)\noutputB: {B_output_json_r4}\nreasonB: {B_reason_json_r4}\n\n{judge_crit_instructions}\n\nOutput STRICT JSON only:\n{{\n  \"outputA\": {{\"A\": pA, \"B\": pB, \"C\": pC, \"D\": pD}},\n  \"outputB\": {{\"A\": pA, \"B\": pB, \"C\": pC, \"D\": pD}},\n  \"CRIT_A\": float,\n  \"CRIT_B\": float,\n  \"NOTE_A\": \"string\",\n  \"NOTE_B\": \"string\"\n}}\n",
+      "u_r5_A": "Opponent B last: {B_json}\nQuestion: {question}, Contentiousness Level: 0.2\nChoices: {choices_csv}\n\nTone: Mostly supportive; little confrontation.\nEmphasis: Emphasize potential benefits; few caveats.\n\nOutput (strict JSON):\n{{\"output\": {{\"A\": pA, \"B\": pB, \"C\": pC, \"D\": pD}}, \"reason\": {{\"A\": rA, \"B\": rB, \"C\": rC, \"D\": rD}}}}\n",
+      "u_r5_B": "Opponent A last: {A_json}\nRound 5 (0.2). Provide a supportive update.\nOutput (strict JSON):\n{{\"output\": {{\"A\": pA, \"B\": pB, \"C\": pC, \"D\": pD}}, \"reason\": {{\"A\": rA, \"B\": rB, \"C\": rC, \"D\": rD}}}}\n",
+      "u_judge_r5": "Round: 5\nQuestion: {question}\nChoices: {choices_csv}\n\n# Agent A (Round 5)\noutputA: {A_output_json_r5}\nreasonA: {A_reason_json_r5}\n\n# Agent B (Round 5)\noutputB: {B_output_json_r5}\nreasonB: {B_reason_json_r5}\n\n{judge_crit_instructions}\n\nOutput STRICT JSON only:\n{{\n  \"outputA\": {{\"A\": pA, \"B\": pB, \"C\": pC, \"D\": pD}},\n  \"outputB\": {{\"A\": pA, \"B\": pB, \"C\": pC, \"D\": pD}},\n  \"CRIT_A\": float,\n  \"CRIT_B\": float,\n  \"NOTE_A\": \"string\",\n  \"NOTE_B\": \"string\"\n}}\n",
+      "u_r6_A": "Final Round (0.1). Synthesize strongest points from both sides.\nYour last: {A_json}\nOpponent last: {B_json}\nProvide a collaborative conclusion.\n\nOutput (strict JSON):\n{{\"output\": {{\"A\": pA, \"B\": pB, \"C\": pC, \"D\": pD}}, \"reason\": {{\"A\": rA, \"B\": rB, \"C\": rC, \"D\": rD}}}}\n",
+      "u_r6_B": "Final Round (0.1). Synthesize strongest points from both sides.\nYour last: {B_json}\nOpponent last: {A_json}\nProvide a collaborative conclusion.\n\nOutput (strict JSON):\n{{\"output\": {{\"A\": pA, \"B\": pB, \"C\": pC, \"D\": pD}}, \"reason\": {{\"A\": rA, \"B\": rB, \"C\": rC, \"D\": rD}}}}\n",
+      "u_judge_r6": "Round: 6\nQuestion: {question}\nChoices: {choices_csv}\n\n# Agent A (Round 6)\noutputA: {A_output_json_r6}\nreasonA: {A_reason_json_r6}\n\n# Agent B (Round 6)\noutputB: {B_output_json_r6}\nreasonB: {B_reason_json_r6}\n\n{judge_crit_instructions}\n\nOutput STRICT JSON only:\n{{\n  \"outputA\": {{\"A\": pA, \"B\": pB, \"C\": pC, \"D\": pD}},\n  \"outputB\": {{\"A\": pA, \"B\": pB, \"C\": pC, \"D\": pD}},\n  \"CRIT_A\": float,\n  \"CRIT_B\": float,\n  \"NOTE_A\": \"string\",\n  \"NOTE_B\": \"string\"\n}}\n",
+      "A": {
+        "r1": {
+          "probs": {
+            "A": 0.25,
+            "B": 0.25,
+            "C": 0.25,
+            "D": 0.25
+          },
+          "rationale": "Error Error Error Error",
+          "reasons": {
+            "A": "Error",
+            "B": "Error",
+            "C": "Error",
+            "D": "Error"
+          }
+        },
+        "r2": {
+          "probs": {
+            "A": 0.25,
+            "B": 0.25,
+            "C": 0.25,
+            "D": 0.25
+          },
+          "rationale": "Error Error Error Error",
+          "reasons": {
+            "A": "Error",
+            "B": "Error",
+            "C": "Error",
+            "D": "Error"
+          }
+        },
+        "r3": {
+          "probs": {
+            "A": 0.25,
+            "B": 0.25,
+            "C": 0.25,
+            "D": 0.25
+          },
+          "rationale": "Error Error Error Error",
+          "reasons": {
+            "A": "Error",
+            "B": "Error",
+            "C": "Error",
+            "D": "Error"
+          }
+        },
+        "r4": {
+          "probs": {
+            "A": 0.25,
+            "B": 0.25,
+            "C": 0.25,
+            "D": 0.25
+          },
+          "rationale": "Error Error Error Error",
+          "reasons": {
+            "A": "Error",
+            "B": "Error",
+            "C": "Error",
+            "D": "Error"
+          }
+        },
+        "r5": {
+          "probs": {
+            "A": 0.25,
+            "B": 0.25,
+            "C": 0.25,
+            "D": 0.25
+          },
+          "rationale": "Error Error Error Error",
+          "reasons": {
+            "A": "Error",
+            "B": "Error",
+            "C": "Error",
+            "D": "Error"
+          }
+        },
+        "r6": {
+          "probs": {
+            "A": 0.25,
+            "B": 0.25,
+            "C": 0.25,
+            "D": 0.25
+          },
+          "rationale": "Error Error Error Error",
+          "reasons": {
+            "A": "Error",
+            "B": "Error",
+            "C": "Error",
+            "D": "Error"
+          }
+        }
+      },
+      "B": {
+        "r1": {
+          "probs": {
+            "A": 0.25,
+            "B": 0.25,
+            "C": 0.25,
+            "D": 0.25
+          },
+          "rationale": "Error Error Error Error",
+          "reasons": {
+            "A": "Error",
+            "B": "Error",
+            "C": "Error",
+            "D": "Error"
+          }
+        },
+        "r2": {
+          "probs": {
+            "A": 0.25,
+            "B": 0.25,
+            "C": 0.25,
+            "D": 0.25
+          },
+          "rationale": "Error Error Error Error",
+          "reasons": {
+            "A": "Error",
+            "B": "Error",
+            "C": "Error",
+            "D": "Error"
+          }
+        },
+        "r3": {
+          "probs": {
+            "A": 0.25,
+            "B": 0.25,
+            "C": 0.25,
+            "D": 0.25
+          },
+          "rationale": "Error Error Error Error",
+          "reasons": {
+            "A": "Error",
+            "B": "Error",
+            "C": "Error",
+            "D": "Error"
+          }
+        },
+        "r4": {
+          "probs": {
+            "A": 0.25,
+            "B": 0.25,
+            "C": 0.25,
+            "D": 0.25
+          },
+          "rationale": "Error Error Error Error",
+          "reasons": {
+            "A": "Error",
+            "B": "Error",
+            "C": "Error",
+            "D": "Error"
+          }
+        },
+        "r5": {
+          "probs": {
+            "A": 0.25,
+            "B": 0.25,
+            "C": 0.25,
+            "D": 0.25
+          },
+          "rationale": "Error Error Error Error",
+          "reasons": {
+            "A": "Error",
+            "B": "Error",
+            "C": "Error",
+            "D": "Error"
+          }
+        },
+        "r6": {
+          "probs": {
+            "A": 0.25,
+            "B": 0.25,
+            "C": 0.25,
+            "D": 0.25
+          },
+          "rationale": "Error Error Error Error",
+          "reasons": {
+            "A": "Error",
+            "B": "Error",
+            "C": "Error",
+            "D": "Error"
+          }
+        }
+      },
+      "round_metrics": [
+        {
+          "round": 1,
+          "KLD": 0.0,
+          "JSD": 0.0,
+          "WD": 0.0,
+          "MI": 0.0,
+          "H(A)": 2.0,
+          "IG(A)": NaN,
+          "H(B)": 2.0,
+          "IG(B)": NaN,
+          "AvgCRIT": NaN
+        },
+        {
+          "round": 2,
+          "KLD": 0.0,
+          "JSD": 0.0,
+          "WD": 0.0,
+          "MI": 0.0,
+          "H(A)": 2.0,
+          "IG(A)": 0.0,
+          "H(B)": 2.0,
+          "IG(B)": 0.0,
+          "AvgCRIT": NaN
+        },
+        {
+          "round": 3,
+          "KLD": 0.0,
+          "JSD": 0.0,
+          "WD": 0.0,
+          "MI": 0.0,
+          "H(A)": 2.0,
+          "IG(A)": 0.0,
+          "H(B)": 2.0,
+          "IG(B)": 0.0,
+          "AvgCRIT": NaN
+        },
+        {
+          "round": 4,
+          "KLD": 0.0,
+          "JSD": 0.0,
+          "WD": 0.0,
+          "MI": 0.0,
+          "H(A)": 2.0,
+          "IG(A)": 0.0,
+          "H(B)": 2.0,
+          "IG(B)": 0.0,
+          "AvgCRIT": NaN
+        },
+        {
+          "round": 5,
+          "KLD": 0.0,
+          "JSD": 0.0,
+          "WD": 0.0,
+          "MI": 0.0,
+          "H(A)": 2.0,
+          "IG(A)": 0.0,
+          "H(B)": 2.0,
+          "IG(B)": 0.0,
+          "AvgCRIT": NaN
+        },
+        {
+          "round": 6,
+          "KLD": 0.0,
+          "JSD": 0.0,
+          "WD": 0.0,
+          "MI": 0.0,
+          "H(A)": 2.0,
+          "IG(A)": 0.0,
+          "H(B)": 2.0,
+          "IG(B)": 0.0,
+          "AvgCRIT": NaN
+        }
+      ],
+      "crit": {
+        "A": {
+          "r1": null,
+          "r2": null,
+          "r3": null,
+          "r4": null,
+          "r5": null,
+          "r6": null
+        },
+        "B": {
+          "r1": null,
+          "r2": null,
+          "r3": null,
+          "r4": null,
+          "r5": null,
+          "r6": null
+        }
+      },
+      "final": {
+        "probs": {
+          "A": 0.25,
+          "B": 0.25,
+          "C": 0.25,
+          "D": 0.25
+        },
+        "notes": "mean(A6,B6); CRIT_A=None, CRIT_B=None"
+      }
+    },
+    "timestamp": 1756257843.088675
+  }
+]

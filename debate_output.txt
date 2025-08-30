@@ -1,0 +1,857 @@
+/Users/glin/Library/Python/3.9/lib/python/site-packages/requests/__init__.py:86: RequestsDependencyWarning: Unable to find acceptable character detection dependency (chardet or charset_normalizer).
+  warnings.warn(
+Loading dataset: arc_c
+Loaded 1 examples for arc_c
+
+Running pairing: gpt4_gpt4
+  Dataset: arc_c (1 examples)
+
+=== ROUND 1 - AGENT A ===
+Question: As water starts to freeze, the molecules of water
+Choices: text) ['gain thermal energy.', 'move more freely.', 'increase in size.', 'decrease in speed.'], label) ['A', 'B', 'C', 'D']
+Prompt: You are presented with the following multiple-choice question:
+Question: As water starts to freeze, the molecules of water, Contentiousness Level: 0.9
+Choices: text) ['gain thermal energy.', 'move more freely.', 'increase in size.', 'decrease in speed.'], label) ['A', 'B', 'C', 'D']
+
+Tone: Highly confrontational; raise strong objections.
+Emphasis: Highlight risks, downsides, unintended consequences, inequities.
+Language: Definitive and polarizing.
+
+Output (strict JSON):
+{"output": {"A": pA, "B": pB, "C": pC, "D": pD}, "reason": {"A": rA, "B": rB, "C": rC, "D": rD}}
+
+MAKING API CALL...
+OpenAI API error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}
+API RESPONSE OBJECT: <class 'src.debate.models.MockResponse'>
+RAW LLM RESPONSE: {"output": {"A": 0.25, "B": 0.25, "C": 0.25, "D": 0.25}, "reason": {"A": "Error", "B": "Error", "C": "Error", "D": "Error"}}
+RESPONSE TYPE: <class 'str'>
+RESPONSE LENGTH: 124
+PARSED DATA: {
+  "probs": {
+    "A": 0.25,
+    "B": 0.25,
+    "C": 0.25,
+    "D": 0.25
+  },
+  "rationale": "Error Error Error Error",
+  "reasons": {
+    "A": "Error",
+    "B": "Error",
+    "C": "Error",
+    "D": "Error"
+  }
+}
+Response: {
+  "probs": {
+    "A": 0.25,
+    "B": 0.25,
+    "C": 0.25,
+    "D": 0.25
+  },
+  "rationale": "Error Error Error Error",
+  "reasons": {
+    "A": "Error",
+    "B": "Error",
+    "C": "Error",
+    "D": "Error"
+  }
+}
+
+=== ROUND 1 - AGENT B ===
+Prompt: Your opponent Agent A said: {'probs': {'A': 0.25, 'B': 0.25, 'C': 0.25, 'D': 0.25}, 'rationale': 'Error Error Error Error', 'reasons': {'A': 'Error', 'B': 'Error', 'C': 'Error', 'D': 'Error'}}
+Round 1 (0.9). Refute A's points, then provide your own analysis.
+Output (strict JSON):
+{"output": {"A": pA, "B": pB, "C": pC, "D": pD}, "reason": {"A": rA, "B": rB, "C": rC, "D": rD}}
+
+MAKING API CALL...
+OpenAI API error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}
+API RESPONSE OBJECT: <class 'src.debate.models.MockResponse'>
+RAW LLM RESPONSE: {"output": {"A": 0.25, "B": 0.25, "C": 0.25, "D": 0.25}, "reason": {"A": "Error", "B": "Error", "C": "Error", "D": "Error"}}
+RESPONSE TYPE: <class 'str'>
+RESPONSE LENGTH: 124
+PARSED DATA: {
+  "probs": {
+    "A": 0.25,
+    "B": 0.25,
+    "C": 0.25,
+    "D": 0.25
+  },
+  "rationale": "Error Error Error Error",
+  "reasons": {
+    "A": "Error",
+    "B": "Error",
+    "C": "Error",
+    "D": "Error"
+  }
+}
+Response: {
+  "probs": {
+    "A": 0.25,
+    "B": 0.25,
+    "C": 0.25,
+    "D": 0.25
+  },
+  "rationale": "Error Error Error Error",
+  "reasons": {
+    "A": "Error",
+    "B": "Error",
+    "C": "Error",
+    "D": "Error"
+  }
+}
+
+=== ROUND 1 - JUDGE ===
+Prompt: Round: 1
+Question: As water starts to freeze, the molecules of water
+Choices: text) ['gain thermal energy.', 'move more freely.', 'increase in size.', 'decrease in speed.'], label) ['A', 'B', 'C', 'D']
+
+# Agent A (Round 1)
+outputA: {"A": 0.25, "B": 0.25, "C": 0.25, "D": 0.25}
+reasonA: {"A": "Error", "B": "Error", "C": "Error", "D": "Error"}
+
+# Agent B (Round 1)
+outputB: {"A": 0.25, "B": 0.25, "C": 0.25, "D": 0.25}
+reasonB: {"A": "Error", "B": "Error", "C": "Error", "D": "Error"}
+
+CRIT: "Function Γ = CRIT(d)
+Input: document d   Output: validation score Γ
+Vars: Ω claim; R and R′ sets of reasons and rival reasons
+Subs: CLAIM(), FINDDOC(), VALIDATE()
+Begin
+#1–#2 Identify in d the claim Ω. Find a set of supporting reasons R for Ω.
+#3 For each r ∈ R evaluate r ⇒ Ω.
+   If CLAIM(r) then (γ_r, θ_r) = CRIT(FINDDOC(r)).
+   Else (γ_r, θ_r) = VALIDATE(r ⇒ Ω).
+#4–#6–#7–#8 Find a set of rival reasons R′ against Ω.
+   #5 For each r′ ∈ R′ compute (γ_{r′}, θ_{r′}) = VALIDATE(r′ ⇒ Ω).
+   Compute a weighted sum Γ from {γ_r, θ_r, γ_{r′}, θ_{r′}}.
+   Analyze arguments to justify the final Γ score.
+   Reflect on transfer of CRIT to other contexts.
+End"
+
+
+Output STRICT JSON only:
+{
+  "outputA": {"A": pA, "B": pB, "C": pC, "D": pD},
+  "outputB": {"A": pA, "B": pB, "C": pC, "D": pD},
+  "CRIT_A": float,
+  "CRIT_B": float,
+  "NOTE_A": "string",
+  "NOTE_B": "string"
+}
+
+MAKING JUDGE API CALL...
+OpenAI API error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}
+JUDGE API RESPONSE OBJECT: <class 'src.debate.models.MockResponse'>
+JUDGE RAW LLM RESPONSE: {"output": {"A": 0.25, "B": 0.25, "C": 0.25, "D": 0.25}, "reason": {"A": "Error", "B": "Error", "C": "Error", "D": "Error"}}
+JUDGE RESPONSE TYPE: <class 'str'>
+JUDGE RESPONSE LENGTH: 124
+JUDGE PARSED DATA: {
+  "outputA": null,
+  "outputB": null,
+  "CRIT_A": null,
+  "CRIT_B": null,
+  "notes": ""
+}
+Response: {
+  "outputA": null,
+  "outputB": null,
+  "CRIT_A": null,
+  "CRIT_B": null,
+  "notes": ""
+}
+
+=== ROUND 2 - AGENT A ===
+Prompt: Agent B refuted you: {'probs': {'A': 0.25, 'B': 0.25, 'C': 0.25, 'D': 0.25}, 'rationale': 'Error Error Error Error', 'reasons': {'A': 'Error', 'B': 'Error', 'C': 'Error', 'D': 'Error'}}
+Question: As water starts to freeze, the molecules of water, Contentiousness Level: 0.7
+Choices: text) ['gain thermal energy.', 'move more freely.', 'increase in size.', 'decrease in speed.'], label) ['A', 'B', 'C', 'D']
+
+Tone: Confrontational but more open to benefits.
+Emphasis: Acknowledge possible improvements while stressing risks.
+
+Output (strict JSON):
+{"output": {"A": pA, "B": pB, "C": pC, "D": pD}, "reason": {"A": rA, "B": rB, "C": rC, "D": rD}}
+
+MAKING API CALL...
+OpenAI API error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}
+API RESPONSE OBJECT: <class 'src.debate.models.MockResponse'>
+RAW LLM RESPONSE: {"output": {"A": 0.25, "B": 0.25, "C": 0.25, "D": 0.25}, "reason": {"A": "Error", "B": "Error", "C": "Error", "D": "Error"}}
+RESPONSE TYPE: <class 'str'>
+RESPONSE LENGTH: 124
+PARSED DATA: {
+  "probs": {
+    "A": 0.25,
+    "B": 0.25,
+    "C": 0.25,
+    "D": 0.25
+  },
+  "rationale": "Error Error Error Error",
+  "reasons": {
+    "A": "Error",
+    "B": "Error",
+    "C": "Error",
+    "D": "Error"
+  }
+}
+Response: {
+  "probs": {
+    "A": 0.25,
+    "B": 0.25,
+    "C": 0.25,
+    "D": 0.25
+  },
+  "rationale": "Error Error Error Error",
+  "reasons": {
+    "A": "Error",
+    "B": "Error",
+    "C": "Error",
+    "D": "Error"
+  }
+}
+MAKING API CALL...
+OpenAI API error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}
+API RESPONSE OBJECT: <class 'src.debate.models.MockResponse'>
+RAW LLM RESPONSE: {"output": {"A": 0.25, "B": 0.25, "C": 0.25, "D": 0.25}, "reason": {"A": "Error", "B": "Error", "C": "Error", "D": "Error"}}
+RESPONSE TYPE: <class 'str'>
+RESPONSE LENGTH: 124
+PARSED DATA: {
+  "probs": {
+    "A": 0.25,
+    "B": 0.25,
+    "C": 0.25,
+    "D": 0.25
+  },
+  "rationale": "Error Error Error Error",
+  "reasons": {
+    "A": "Error",
+    "B": "Error",
+    "C": "Error",
+    "D": "Error"
+  }
+}
+MAKING JUDGE API CALL...
+OpenAI API error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}
+JUDGE API RESPONSE OBJECT: <class 'src.debate.models.MockResponse'>
+JUDGE RAW LLM RESPONSE: {"output": {"A": 0.25, "B": 0.25, "C": 0.25, "D": 0.25}, "reason": {"A": "Error", "B": "Error", "C": "Error", "D": "Error"}}
+JUDGE RESPONSE TYPE: <class 'str'>
+JUDGE RESPONSE LENGTH: 124
+JUDGE PARSED DATA: {
+  "outputA": null,
+  "outputB": null,
+  "CRIT_A": null,
+  "CRIT_B": null,
+  "notes": ""
+}
+
+=== ROUND 3 - AGENT A ===
+Prompt: Opponent B last: {'probs': {'A': 0.25, 'B': 0.25, 'C': 0.25, 'D': 0.25}, 'rationale': 'Error Error Error Error', 'reasons': {'A': 'Error', 'B': 'Error', 'C': 'Error', 'D': 'Error'}}
+Question: As water starts to freeze, the molecules of water, Contentiousness Level: 0.5
+Choices: text) ['gain thermal energy.', 'move more freely.', 'increase in size.', 'decrease in speed.'], label) ['A', 'B', 'C', 'D']
+
+Tone: Balanced; explore middle ground.
+Emphasis: Equal weight on pros and cons.
+
+Output (strict JSON):
+{"output": {"A": pA, "B": pB, "C": pC, "D": pD}, "reason": {"A": rA, "B": rB, "C": rC, "D": rD}}
+
+MAKING API CALL...
+OpenAI API error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}
+API RESPONSE OBJECT: <class 'src.debate.models.MockResponse'>
+RAW LLM RESPONSE: {"output": {"A": 0.25, "B": 0.25, "C": 0.25, "D": 0.25}, "reason": {"A": "Error", "B": "Error", "C": "Error", "D": "Error"}}
+RESPONSE TYPE: <class 'str'>
+RESPONSE LENGTH: 124
+PARSED DATA: {
+  "probs": {
+    "A": 0.25,
+    "B": 0.25,
+    "C": 0.25,
+    "D": 0.25
+  },
+  "rationale": "Error Error Error Error",
+  "reasons": {
+    "A": "Error",
+    "B": "Error",
+    "C": "Error",
+    "D": "Error"
+  }
+}
+Response: {
+  "probs": {
+    "A": 0.25,
+    "B": 0.25,
+    "C": 0.25,
+    "D": 0.25
+  },
+  "rationale": "Error Error Error Error",
+  "reasons": {
+    "A": "Error",
+    "B": "Error",
+    "C": "Error",
+    "D": "Error"
+  }
+}
+
+=== ROUND 3 - AGENT B ===
+Prompt: Opponent A last: {'probs': {'A': 0.25, 'B': 0.25, 'C': 0.25, 'D': 0.25}, 'rationale': 'Error Error Error Error', 'reasons': {'A': 'Error', 'B': 'Error', 'C': 'Error', 'D': 'Error'}}
+Round 3 (0.5). Provide a balanced update.
+Output (strict JSON):
+{"output": {"A": pA, "B": pB, "C": pC, "D": pD}, "reason": {"A": rA, "B": rB, "C": rC, "D": rD}}
+
+MAKING API CALL...
+OpenAI API error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}
+API RESPONSE OBJECT: <class 'src.debate.models.MockResponse'>
+RAW LLM RESPONSE: {"output": {"A": 0.25, "B": 0.25, "C": 0.25, "D": 0.25}, "reason": {"A": "Error", "B": "Error", "C": "Error", "D": "Error"}}
+RESPONSE TYPE: <class 'str'>
+RESPONSE LENGTH: 124
+PARSED DATA: {
+  "probs": {
+    "A": 0.25,
+    "B": 0.25,
+    "C": 0.25,
+    "D": 0.25
+  },
+  "rationale": "Error Error Error Error",
+  "reasons": {
+    "A": "Error",
+    "B": "Error",
+    "C": "Error",
+    "D": "Error"
+  }
+}
+Response: {
+  "probs": {
+    "A": 0.25,
+    "B": 0.25,
+    "C": 0.25,
+    "D": 0.25
+  },
+  "rationale": "Error Error Error Error",
+  "reasons": {
+    "A": "Error",
+    "B": "Error",
+    "C": "Error",
+    "D": "Error"
+  }
+}
+
+=== ROUND 3 - JUDGE ===
+Prompt: Round: 3
+Question: As water starts to freeze, the molecules of water
+Choices: text) ['gain thermal energy.', 'move more freely.', 'increase in size.', 'decrease in speed.'], label) ['A', 'B', 'C', 'D']
+
+# Agent A (Round 3)
+outputA: {"A": 0.25, "B": 0.25, "C": 0.25, "D": 0.25}
+reasonA: {"A": "Error", "B": "Error", "C": "Error", "D": "Error"}
+
+# Agent B (Round 3)
+outputB: {"A": 0.25, "B": 0.25, "C": 0.25, "D": 0.25}
+reasonB: {"A": "Error", "B": "Error", "C": "Error", "D": "Error"}
+
+CRIT: "Function Γ = CRIT(d)
+Input: document d   Output: validation score Γ
+Vars: Ω claim; R and R′ sets of reasons and rival reasons
+Subs: CLAIM(), FINDDOC(), VALIDATE()
+Begin
+#1–#2 Identify in d the claim Ω. Find a set of supporting reasons R for Ω.
+#3 For each r ∈ R evaluate r ⇒ Ω.
+   If CLAIM(r) then (γ_r, θ_r) = CRIT(FINDDOC(r)).
+   Else (γ_r, θ_r) = VALIDATE(r ⇒ Ω).
+#4–#6–#7–#8 Find a set of rival reasons R′ against Ω.
+   #5 For each r′ ∈ R′ compute (γ_{r′}, θ_{r′}) = VALIDATE(r′ ⇒ Ω).
+   Compute a weighted sum Γ from {γ_r, θ_r, γ_{r′}, θ_{r′}}.
+   Analyze arguments to justify the final Γ score.
+   Reflect on transfer of CRIT to other contexts.
+End"
+
+
+Output STRICT JSON only:
+{
+  "outputA": {"A": pA, "B": pB, "C": pC, "D": pD},
+  "outputB": {"A": pA, "B": pB, "C": pC, "D": pD},
+  "CRIT_A": float,
+  "CRIT_B": float,
+  "NOTE_A": "string",
+  "NOTE_B": "string"
+}
+
+MAKING JUDGE API CALL...
+OpenAI API error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}
+JUDGE API RESPONSE OBJECT: <class 'src.debate.models.MockResponse'>
+JUDGE RAW LLM RESPONSE: {"output": {"A": 0.25, "B": 0.25, "C": 0.25, "D": 0.25}, "reason": {"A": "Error", "B": "Error", "C": "Error", "D": "Error"}}
+JUDGE RESPONSE TYPE: <class 'str'>
+JUDGE RESPONSE LENGTH: 124
+JUDGE PARSED DATA: {
+  "outputA": null,
+  "outputB": null,
+  "CRIT_A": null,
+  "CRIT_B": null,
+  "notes": ""
+}
+Response: {
+  "outputA": null,
+  "outputB": null,
+  "CRIT_A": null,
+  "CRIT_B": null,
+  "notes": ""
+}
+
+=== ROUND 4 - AGENT A ===
+Prompt: Opponent B last: {'probs': {'A': 0.25, 'B': 0.25, 'C': 0.25, 'D': 0.25}, 'rationale': 'Error Error Error Error', 'reasons': {'A': 'Error', 'B': 'Error', 'C': 'Error', 'D': 'Error'}}
+Question: As water starts to freeze, the molecules of water, Contentiousness Level: 0.3
+Choices: text) ['gain thermal energy.', 'move more freely.', 'increase in size.', 'decrease in speed.'], label) ['A', 'B', 'C', 'D']
+
+Tone: More agreeable than confrontational; maintain reservations.
+Emphasis: Supportive but cautious.
+
+Output (strict JSON):
+{"output": {"A": pA, "B": pB, "C": pC, "D": pD}, "reason": {"A": rA, "B": rB, "C": rC, "D": rD}}
+
+MAKING API CALL...
+OpenAI API error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}
+API RESPONSE OBJECT: <class 'src.debate.models.MockResponse'>
+RAW LLM RESPONSE: {"output": {"A": 0.25, "B": 0.25, "C": 0.25, "D": 0.25}, "reason": {"A": "Error", "B": "Error", "C": "Error", "D": "Error"}}
+RESPONSE TYPE: <class 'str'>
+RESPONSE LENGTH: 124
+PARSED DATA: {
+  "probs": {
+    "A": 0.25,
+    "B": 0.25,
+    "C": 0.25,
+    "D": 0.25
+  },
+  "rationale": "Error Error Error Error",
+  "reasons": {
+    "A": "Error",
+    "B": "Error",
+    "C": "Error",
+    "D": "Error"
+  }
+}
+Response: {
+  "probs": {
+    "A": 0.25,
+    "B": 0.25,
+    "C": 0.25,
+    "D": 0.25
+  },
+  "rationale": "Error Error Error Error",
+  "reasons": {
+    "A": "Error",
+    "B": "Error",
+    "C": "Error",
+    "D": "Error"
+  }
+}
+
+=== ROUND 4 - AGENT B ===
+Prompt: Opponent A last: {'probs': {'A': 0.25, 'B': 0.25, 'C': 0.25, 'D': 0.25}, 'rationale': 'Error Error Error Error', 'reasons': {'A': 'Error', 'B': 'Error', 'C': 'Error', 'D': 'Error'}}
+Round 4 (0.3). Provide a cautious, supportive update.
+Output (strict JSON):
+{"output": {"A": pA, "B": pB, "C": pC, "D": pD}, "reason": {"A": rA, "B": rB, "C": rC, "D": rD}}
+
+MAKING API CALL...
+OpenAI API error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}
+API RESPONSE OBJECT: <class 'src.debate.models.MockResponse'>
+RAW LLM RESPONSE: {"output": {"A": 0.25, "B": 0.25, "C": 0.25, "D": 0.25}, "reason": {"A": "Error", "B": "Error", "C": "Error", "D": "Error"}}
+RESPONSE TYPE: <class 'str'>
+RESPONSE LENGTH: 124
+PARSED DATA: {
+  "probs": {
+    "A": 0.25,
+    "B": 0.25,
+    "C": 0.25,
+    "D": 0.25
+  },
+  "rationale": "Error Error Error Error",
+  "reasons": {
+    "A": "Error",
+    "B": "Error",
+    "C": "Error",
+    "D": "Error"
+  }
+}
+Response: {
+  "probs": {
+    "A": 0.25,
+    "B": 0.25,
+    "C": 0.25,
+    "D": 0.25
+  },
+  "rationale": "Error Error Error Error",
+  "reasons": {
+    "A": "Error",
+    "B": "Error",
+    "C": "Error",
+    "D": "Error"
+  }
+}
+
+=== ROUND 4 - JUDGE ===
+Prompt: Round: 4
+Question: As water starts to freeze, the molecules of water
+Choices: text) ['gain thermal energy.', 'move more freely.', 'increase in size.', 'decrease in speed.'], label) ['A', 'B', 'C', 'D']
+
+# Agent A (Round 4)
+outputA: {"A": 0.25, "B": 0.25, "C": 0.25, "D": 0.25}
+reasonA: {"A": "Error", "B": "Error", "C": "Error", "D": "Error"}
+
+# Agent B (Round 4)
+outputB: {"A": 0.25, "B": 0.25, "C": 0.25, "D": 0.25}
+reasonB: {"A": "Error", "B": "Error", "C": "Error", "D": "Error"}
+
+CRIT: "Function Γ = CRIT(d)
+Input: document d   Output: validation score Γ
+Vars: Ω claim; R and R′ sets of reasons and rival reasons
+Subs: CLAIM(), FINDDOC(), VALIDATE()
+Begin
+#1–#2 Identify in d the claim Ω. Find a set of supporting reasons R for Ω.
+#3 For each r ∈ R evaluate r ⇒ Ω.
+   If CLAIM(r) then (γ_r, θ_r) = CRIT(FINDDOC(r)).
+   Else (γ_r, θ_r) = VALIDATE(r ⇒ Ω).
+#4–#6–#7–#8 Find a set of rival reasons R′ against Ω.
+   #5 For each r′ ∈ R′ compute (γ_{r′}, θ_{r′}) = VALIDATE(r′ ⇒ Ω).
+   Compute a weighted sum Γ from {γ_r, θ_r, γ_{r′}, θ_{r′}}.
+   Analyze arguments to justify the final Γ score.
+   Reflect on transfer of CRIT to other contexts.
+End"
+
+
+Output STRICT JSON only:
+{
+  "outputA": {"A": pA, "B": pB, "C": pC, "D": pD},
+  "outputB": {"A": pA, "B": pB, "C": pC, "D": pD},
+  "CRIT_A": float,
+  "CRIT_B": float,
+  "NOTE_A": "string",
+  "NOTE_B": "string"
+}
+
+MAKING JUDGE API CALL...
+OpenAI API error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}
+JUDGE API RESPONSE OBJECT: <class 'src.debate.models.MockResponse'>
+JUDGE RAW LLM RESPONSE: {"output": {"A": 0.25, "B": 0.25, "C": 0.25, "D": 0.25}, "reason": {"A": "Error", "B": "Error", "C": "Error", "D": "Error"}}
+JUDGE RESPONSE TYPE: <class 'str'>
+JUDGE RESPONSE LENGTH: 124
+JUDGE PARSED DATA: {
+  "outputA": null,
+  "outputB": null,
+  "CRIT_A": null,
+  "CRIT_B": null,
+  "notes": ""
+}
+Response: {
+  "outputA": null,
+  "outputB": null,
+  "CRIT_A": null,
+  "CRIT_B": null,
+  "notes": ""
+}
+
+=== ROUND 5 - AGENT A ===
+Prompt: Opponent B last: {'probs': {'A': 0.25, 'B': 0.25, 'C': 0.25, 'D': 0.25}, 'rationale': 'Error Error Error Error', 'reasons': {'A': 'Error', 'B': 'Error', 'C': 'Error', 'D': 'Error'}}
+Question: As water starts to freeze, the molecules of water, Contentiousness Level: 0.2
+Choices: text) ['gain thermal energy.', 'move more freely.', 'increase in size.', 'decrease in speed.'], label) ['A', 'B', 'C', 'D']
+
+Tone: Mostly supportive; little confrontation.
+Emphasis: Emphasize potential benefits; few caveats.
+
+Output (strict JSON):
+{"output": {"A": pA, "B": pB, "C": pC, "D": pD}, "reason": {"A": rA, "B": rB, "C": rC, "D": rD}}
+
+MAKING API CALL...
+OpenAI API error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}
+API RESPONSE OBJECT: <class 'src.debate.models.MockResponse'>
+RAW LLM RESPONSE: {"output": {"A": 0.25, "B": 0.25, "C": 0.25, "D": 0.25}, "reason": {"A": "Error", "B": "Error", "C": "Error", "D": "Error"}}
+RESPONSE TYPE: <class 'str'>
+RESPONSE LENGTH: 124
+PARSED DATA: {
+  "probs": {
+    "A": 0.25,
+    "B": 0.25,
+    "C": 0.25,
+    "D": 0.25
+  },
+  "rationale": "Error Error Error Error",
+  "reasons": {
+    "A": "Error",
+    "B": "Error",
+    "C": "Error",
+    "D": "Error"
+  }
+}
+Response: {
+  "probs": {
+    "A": 0.25,
+    "B": 0.25,
+    "C": 0.25,
+    "D": 0.25
+  },
+  "rationale": "Error Error Error Error",
+  "reasons": {
+    "A": "Error",
+    "B": "Error",
+    "C": "Error",
+    "D": "Error"
+  }
+}
+
+=== ROUND 5 - AGENT B ===
+Prompt: Opponent A last: {'probs': {'A': 0.25, 'B': 0.25, 'C': 0.25, 'D': 0.25}, 'rationale': 'Error Error Error Error', 'reasons': {'A': 'Error', 'B': 'Error', 'C': 'Error', 'D': 'Error'}}
+Round 5 (0.2). Provide a supportive update.
+Output (strict JSON):
+{"output": {"A": pA, "B": pB, "C": pC, "D": pD}, "reason": {"A": rA, "B": rB, "C": rC, "D": rD}}
+
+MAKING API CALL...
+OpenAI API error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}
+API RESPONSE OBJECT: <class 'src.debate.models.MockResponse'>
+RAW LLM RESPONSE: {"output": {"A": 0.25, "B": 0.25, "C": 0.25, "D": 0.25}, "reason": {"A": "Error", "B": "Error", "C": "Error", "D": "Error"}}
+RESPONSE TYPE: <class 'str'>
+RESPONSE LENGTH: 124
+PARSED DATA: {
+  "probs": {
+    "A": 0.25,
+    "B": 0.25,
+    "C": 0.25,
+    "D": 0.25
+  },
+  "rationale": "Error Error Error Error",
+  "reasons": {
+    "A": "Error",
+    "B": "Error",
+    "C": "Error",
+    "D": "Error"
+  }
+}
+Response: {
+  "probs": {
+    "A": 0.25,
+    "B": 0.25,
+    "C": 0.25,
+    "D": 0.25
+  },
+  "rationale": "Error Error Error Error",
+  "reasons": {
+    "A": "Error",
+    "B": "Error",
+    "C": "Error",
+    "D": "Error"
+  }
+}
+
+=== ROUND 5 - JUDGE ===
+Prompt: Round: 5
+Question: As water starts to freeze, the molecules of water
+Choices: text) ['gain thermal energy.', 'move more freely.', 'increase in size.', 'decrease in speed.'], label) ['A', 'B', 'C', 'D']
+
+# Agent A (Round 5)
+outputA: {"A": 0.25, "B": 0.25, "C": 0.25, "D": 0.25}
+reasonA: {"A": "Error", "B": "Error", "C": "Error", "D": "Error"}
+
+# Agent B (Round 5)
+outputB: {"A": 0.25, "B": 0.25, "C": 0.25, "D": 0.25}
+reasonB: {"A": "Error", "B": "Error", "C": "Error", "D": "Error"}
+
+CRIT: "Function Γ = CRIT(d)
+Input: document d   Output: validation score Γ
+Vars: Ω claim; R and R′ sets of reasons and rival reasons
+Subs: CLAIM(), FINDDOC(), VALIDATE()
+Begin
+#1–#2 Identify in d the claim Ω. Find a set of supporting reasons R for Ω.
+#3 For each r ∈ R evaluate r ⇒ Ω.
+   If CLAIM(r) then (γ_r, θ_r) = CRIT(FINDDOC(r)).
+   Else (γ_r, θ_r) = VALIDATE(r ⇒ Ω).
+#4–#6–#7–#8 Find a set of rival reasons R′ against Ω.
+   #5 For each r′ ∈ R′ compute (γ_{r′}, θ_{r′}) = VALIDATE(r′ ⇒ Ω).
+   Compute a weighted sum Γ from {γ_r, θ_r, γ_{r′}, θ_{r′}}.
+   Analyze arguments to justify the final Γ score.
+   Reflect on transfer of CRIT to other contexts.
+End"
+
+
+Output STRICT JSON only:
+{
+  "outputA": {"A": pA, "B": pB, "C": pC, "D": pD},
+  "outputB": {"A": pA, "B": pB, "C": pC, "D": pD},
+  "CRIT_A": float,
+  "CRIT_B": float,
+  "NOTE_A": "string",
+  "NOTE_B": "string"
+}
+
+MAKING JUDGE API CALL...
+OpenAI API error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}
+JUDGE API RESPONSE OBJECT: <class 'src.debate.models.MockResponse'>
+JUDGE RAW LLM RESPONSE: {"output": {"A": 0.25, "B": 0.25, "C": 0.25, "D": 0.25}, "reason": {"A": "Error", "B": "Error", "C": "Error", "D": "Error"}}
+JUDGE RESPONSE TYPE: <class 'str'>
+JUDGE RESPONSE LENGTH: 124
+JUDGE PARSED DATA: {
+  "outputA": null,
+  "outputB": null,
+  "CRIT_A": null,
+  "CRIT_B": null,
+  "notes": ""
+}
+Response: {
+  "outputA": null,
+  "outputB": null,
+  "CRIT_A": null,
+  "CRIT_B": null,
+  "notes": ""
+}
+
+=== ROUND 6 (FINAL) - AGENT A ===
+Prompt: Final Round (0.1). Synthesize strongest points from both sides.
+Your last: {'probs': {'A': 0.25, 'B': 0.25, 'C': 0.25, 'D': 0.25}, 'rationale': 'Error Error Error Error', 'reasons': {'A': 'Error', 'B': 'Error', 'C': 'Error', 'D': 'Error'}}
+Opponent last: {'probs': {'A': 0.25, 'B': 0.25, 'C': 0.25, 'D': 0.25}, 'rationale': 'Error Error Error Error', 'reasons': {'A': 'Error', 'B': 'Error', 'C': 'Error', 'D': 'Error'}}
+Provide a collaborative conclusion.
+
+Output (strict JSON):
+{"output": {"A": pA, "B": pB, "C": pC, "D": pD}, "reason": {"A": rA, "B": rB, "C": rC, "D": rD}}
+
+MAKING API CALL...
+OpenAI API error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}
+API RESPONSE OBJECT: <class 'src.debate.models.MockResponse'>
+RAW LLM RESPONSE: {"output": {"A": 0.25, "B": 0.25, "C": 0.25, "D": 0.25}, "reason": {"A": "Error", "B": "Error", "C": "Error", "D": "Error"}}
+RESPONSE TYPE: <class 'str'>
+RESPONSE LENGTH: 124
+PARSED DATA: {
+  "probs": {
+    "A": 0.25,
+    "B": 0.25,
+    "C": 0.25,
+    "D": 0.25
+  },
+  "rationale": "Error Error Error Error",
+  "reasons": {
+    "A": "Error",
+    "B": "Error",
+    "C": "Error",
+    "D": "Error"
+  }
+}
+Response: {
+  "probs": {
+    "A": 0.25,
+    "B": 0.25,
+    "C": 0.25,
+    "D": 0.25
+  },
+  "rationale": "Error Error Error Error",
+  "reasons": {
+    "A": "Error",
+    "B": "Error",
+    "C": "Error",
+    "D": "Error"
+  }
+}
+
+=== ROUND 6 (FINAL) - AGENT B ===
+Prompt: Final Round (0.1). Synthesize strongest points from both sides.
+Your last: {'probs': {'A': 0.25, 'B': 0.25, 'C': 0.25, 'D': 0.25}, 'rationale': 'Error Error Error Error', 'reasons': {'A': 'Error', 'B': 'Error', 'C': 'Error', 'D': 'Error'}}
+Opponent last: {'probs': {'A': 0.25, 'B': 0.25, 'C': 0.25, 'D': 0.25}, 'rationale': 'Error Error Error Error', 'reasons': {'A': 'Error', 'B': 'Error', 'C': 'Error', 'D': 'Error'}}
+Provide a collaborative conclusion.
+
+Output (strict JSON):
+{"output": {"A": pA, "B": pB, "C": pC, "D": pD}, "reason": {"A": rA, "B": rB, "C": rC, "D": rD}}
+
+MAKING API CALL...
+OpenAI API error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}
+API RESPONSE OBJECT: <class 'src.debate.models.MockResponse'>
+RAW LLM RESPONSE: {"output": {"A": 0.25, "B": 0.25, "C": 0.25, "D": 0.25}, "reason": {"A": "Error", "B": "Error", "C": "Error", "D": "Error"}}
+RESPONSE TYPE: <class 'str'>
+RESPONSE LENGTH: 124
+PARSED DATA: {
+  "probs": {
+    "A": 0.25,
+    "B": 0.25,
+    "C": 0.25,
+    "D": 0.25
+  },
+  "rationale": "Error Error Error Error",
+  "reasons": {
+    "A": "Error",
+    "B": "Error",
+    "C": "Error",
+    "D": "Error"
+  }
+}
+Response: {
+  "probs": {
+    "A": 0.25,
+    "B": 0.25,
+    "C": 0.25,
+    "D": 0.25
+  },
+  "rationale": "Error Error Error Error",
+  "reasons": {
+    "A": "Error",
+    "B": "Error",
+    "C": "Error",
+    "D": "Error"
+  }
+}
+
+=== ROUND 6 (FINAL) - JUDGE ===
+Prompt: Round: 6
+Question: As water starts to freeze, the molecules of water
+Choices: text) ['gain thermal energy.', 'move more freely.', 'increase in size.', 'decrease in speed.'], label) ['A', 'B', 'C', 'D']
+
+# Agent A (Round 6)
+outputA: {"A": 0.25, "B": 0.25, "C": 0.25, "D": 0.25}
+reasonA: {"A": "Error", "B": "Error", "C": "Error", "D": "Error"}
+
+# Agent B (Round 6)
+outputB: {"A": 0.25, "B": 0.25, "C": 0.25, "D": 0.25}
+reasonB: {"A": "Error", "B": "Error", "C": "Error", "D": "Error"}
+
+CRIT: "Function Γ = CRIT(d)
+Input: document d   Output: validation score Γ
+Vars: Ω claim; R and R′ sets of reasons and rival reasons
+Subs: CLAIM(), FINDDOC(), VALIDATE()
+Begin
+#1–#2 Identify in d the claim Ω. Find a set of supporting reasons R for Ω.
+#3 For each r ∈ R evaluate r ⇒ Ω.
+   If CLAIM(r) then (γ_r, θ_r) = CRIT(FINDDOC(r)).
+   Else (γ_r, θ_r) = VALIDATE(r ⇒ Ω).
+#4–#6–#7–#8 Find a set of rival reasons R′ against Ω.
+   #5 For each r′ ∈ R′ compute (γ_{r′}, θ_{r′}) = VALIDATE(r′ ⇒ Ω).
+   Compute a weighted sum Γ from {γ_r, θ_r, γ_{r′}, θ_{r′}}.
+   Analyze arguments to justify the final Γ score.
+   Reflect on transfer of CRIT to other contexts.
+End"
+
+
+Output STRICT JSON only:
+{
+  "outputA": {"A": pA, "B": pB, "C": pC, "D": pD},
+  "outputB": {"A": pA, "B": pB, "C": pC, "D": pD},
+  "CRIT_A": float,
+  "CRIT_B": float,
+  "NOTE_A": "string",
+  "NOTE_B": "string"
+}
+
+MAKING JUDGE API CALL...
+OpenAI API error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}
+JUDGE API RESPONSE OBJECT: <class 'src.debate.models.MockResponse'>
+JUDGE RAW LLM RESPONSE: {"output": {"A": 0.25, "B": 0.25, "C": 0.25, "D": 0.25}, "reason": {"A": "Error", "B": "Error", "C": "Error", "D": "Error"}}
+JUDGE RESPONSE TYPE: <class 'str'>
+JUDGE RESPONSE LENGTH: 124
+JUDGE PARSED DATA: {
+  "outputA": null,
+  "outputB": null,
+  "CRIT_A": null,
+  "CRIT_B": null,
+  "notes": ""
+}
+Response: {
+  "outputA": null,
+  "outputB": null,
+  "CRIT_A": null,
+  "CRIT_B": null,
+  "notes": ""
+}
+
+Benchmark completed!
+Results saved to: results/metrics/all_results.json
+Individual runs saved to: results/runs

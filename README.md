@@ -10,14 +10,13 @@ The systems support LangGraph + 6-Round Protocol + LLM-as-a-Judge (CRIT).
 ## 🔹 Features
 - **Debate Protocol**: 2 agents (A, B) exchange arguments in 6 rounds, probabilities + rationales per choice.
 - **Per-Round Judge**: Independent judge model evaluates outputs after each round, computes CRIT_A / CRIT_B.
-- **CRIT Scoring**: LLM-based algorithm (with optional rule-base algorithm: BM25 fact index for OBQA/QASC corpora).
+- **CRIT Scoring**: LLM-based algorithm using judge prompts to evaluate argument quality and reliability.
 - **Metrics**: KL Divergence, JSD, Wasserstein Distance, Mutual Information, Entropy, Information Gain, AvgCRIT.
 - **Datasets**: 8 benchmarks (ARC-C, TruthfulQA-MC, LogiQA, QASC, StrategyQA, OpenBookQA Closed, OpenBookQA Controlled Open, HellaSwag, optional GPQA-Diamond).
 - **Pairings**:  
-  1. GPT-5 vs Claude-4  
-  2. GPT-5 vs Gemini-2.5-Pro  
-  3. Claude-4 vs Gemini-2.5-Pro  
-  4. GPT-5 vs GPT-5 (baseline self-debate)
+  1. Qwen2.5-7B-Instruct vs Qwen2.5-7B-Instruct (self-debate)
+  2. Qwen2.5-7B-Instruct vs Llama3.1-8B-Instruct
+  3. Llama3.1-8B-Instruct vs Llama3.1-8B-Instruct (self-debate)
 
 ---
 
@@ -27,13 +26,29 @@ git clone <this-repo>
 cd multi-agent-debate-qa
 pip install -r requirements.txt
 ```
-Dependencies:
 
-langgraph, datasets, rank_bm25, orjson, python-dotenv
+### Setting up Local Models
+To use the local models (Qwen2.5-7B-Instruct and Llama3.1-8B-Instruct), you need to download them first:
 
-plus OpenAI/Anthropic/Google API clients (depending on providers you use)
+```bash
+# Setup both models (~30GB total)
+python scripts/setup_local_models.py --all
+
+# Or setup individually
+python scripts/setup_local_models.py --qwen   # Qwen2.5-7B-Instruct (~14GB)
+python scripts/setup_local_models.py --llama  # Llama3.1-8B-Instruct (~16GB)
+```
+
+**Requirements for local models:**
+- Sufficient RAM (16GB+ recommended)
+- GPU with sufficient VRAM (8GB+ recommended for 7B/8B models)
+- Stable internet connection for initial download
+- HuggingFace account with access to Llama models (for Llama3.1-8B-Instruct)
+
+**Note for Llama models:** You may need to request access to Llama models on HuggingFace and login with `huggingface-cli login`.
 
 ---
+
 ## 🔹 Datasets
 Download all QA datasets with one command:
 ```bash
@@ -41,37 +56,34 @@ bash scripts/download_datasets.sh
 ```
 
 This uses HuggingFace Datasets.
-```bash
-bash scripts/download_datasets.sh
-```
-This uses **Hugging Face `datasets`** (and `tfds` when needed) to download/cache:
-- ARC‑Challenge (`allenai/ai2_arc`, subset `ARC-Challenge`)
-- TruthfulQA‑MC (`EleutherAI/truthful_qa_mc`)
-- LogiQA (`lucasmccabe/logiqa`)
-- QASC (`allenai/qasc`)
-- StrategyQA (`voidful/StrategyQA`)
-- OpenBookQA closed‑book & controlled open‑book (`allenai/openbookqa`)
-- HellaSwag (`Rowan/hellaswag`)
-- GPQA‑Diamond (`fingertap/GPQA-Diamond`, optional)
-
 Exports uniform JSONL snapshots into data/{dataset}/dev.jsonl.
 
 ---
 
 ## 🔹 Running Debates
-To run all 4 pairings × 8 datasets:
+To run all pairings × datasets:
 
 ```bash
-python -m src.runners.run_benchmark \
+python3 -m src.runners.run_benchmark \
   --benchmark configs/benchmark.yaml \
   --models configs/models.yaml \
   --datasets configs/datasets.yaml \
   --prompts configs/prompts.yaml
 ```
 
+To run specific pairings, edit `configs/benchmark.yaml` and uncomment the pairings you want to run.
+
+**Example: Run Qwen vs Llama only:**
+```yaml
+pairings:
+  - qwen_llama
+```
+
 Outputs:
 
-results/runs/{pairing}__{dataset}.jsonl → raw per-example with all rounds outputs.
+results/runs/{pairing}__{dataset}.jsonl → raw per-example with all rounds + judge outputs.
+
+results/metrics/{pairing}__{dataset}.json → aggregated metrics.
 
 ---
 
@@ -89,15 +101,7 @@ python -m src.runners.export_table --metrics round
 Tables are written under results/tables/.
 
 ---
-## 🔹 Facts Index (Optional, for CRIT)
-For OBQA/QASC, you can build a fact index:
 
-```bash
-python scripts/build_fact_index.py --out data/facts/obqa_qasc_facts.jsonl
-```
-Then pass the path in configs/benchmark.yaml under facts_jsonl:.
-
----
 ## 🔹 Repo Structure
 ```bash
 configs/
@@ -110,10 +114,15 @@ src/
     graph.py         # Debate pipeline (6 rounds, judge after each round)
     prompts.py       # Parsing + schema validation
     metrics.py       # Info-theoretic metrics
+    models.py        # Model wrappers (OpenAI, Anthropic, Google, Local)
+    # LLM-based CRIT scoring (via judge prompts)
   datasets/          # Dataset loaders
   runners/           # Run + export scripts
 scripts/
   download_datasets.sh
+  setup_local_models.py  # Setup script for local models
+  setup_qwen.py      # Setup script for Qwen2.5-7B-Instruct
+  setup_llama.py     # Setup script for Llama3.1-8B-Instruct
   build_fact_index.py
 results/
   runs/              # Per-example outputs

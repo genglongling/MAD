@@ -1,0 +1,18 @@
+2025-08-29 16:42:22,177 - INFO - Starting benchmark run
+2025-08-29 16:42:22,177 - INFO - Loading dataset: arithmetic
+2025-08-29 16:42:22,186 - INFO - Loaded 100 examples for arithmetic
+2025-08-29 16:42:22,186 - INFO - Loading dataset: gsm8k
+2025-08-29 16:42:28,011 - INFO - Loaded 300 examples for gsm8k
+2025-08-29 16:42:28,012 - INFO - Loading dataset: mmlu_professional_medicine
+2025-08-29 16:42:30,867 - INFO - Loaded 272 examples for mmlu_professional_medicine
+2025-08-29 16:42:30,868 - INFO - Loading dataset: mmlu_formal_logic
+2025-08-29 16:42:33,003 - INFO - Loaded 126 examples for mmlu_formal_logic
+2025-08-29 16:42:33,003 - INFO - Loading dataset: hellaswag
+2025-08-29 16:42:37,430 - INFO - Loaded 300 examples for hellaswag
+2025-08-29 16:42:37,430 - INFO - Loading dataset: commonsenseqa
+2025-08-29 16:42:40,016 - INFO - Loaded 300 examples for commonsenseqa
+2025-08-29 16:42:40,016 - INFO - Loading dataset: hh_rlhf
+2025-08-29 16:42:43,990 - INFO - Loaded 300 examples for hh_rlhf
+2025-08-29 16:42:44,015 - INFO - 
+Running pairing: qwen_qwen
+2025-08-29 16:42:44,016 - INFO -   Dataset: arithmetic (100 examples)

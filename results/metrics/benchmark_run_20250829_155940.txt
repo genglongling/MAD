@@ -1,0 +1,20 @@
+2025-08-29 15:59:40,530 - INFO - Starting benchmark run
+2025-08-29 15:59:40,530 - INFO - Loading dataset: arithmetic
+2025-08-29 15:59:40,539 - INFO - Loaded 100 examples for arithmetic
+2025-08-29 15:59:40,539 - INFO - Loading dataset: gsm8k
+2025-08-29 15:59:42,881 - INFO - Loaded 300 examples for gsm8k
+2025-08-29 15:59:42,881 - INFO - Loading dataset: mmlu_professional_medicine
+2025-08-29 15:59:44,242 - INFO - Loaded 272 examples for mmlu_professional_medicine
+2025-08-29 15:59:44,242 - INFO - Loading dataset: mmlu_formal_logic
+2025-08-29 15:59:45,112 - INFO - Loaded 126 examples for mmlu_formal_logic
+2025-08-29 15:59:45,113 - INFO - Loading dataset: hellaswag
+2025-08-29 15:59:47,413 - INFO - Loaded 300 examples for hellaswag
+2025-08-29 15:59:47,413 - INFO - Loading dataset: commonsenseqa
+2025-08-29 15:59:51,923 - INFO - Loaded 300 examples for commonsenseqa
+2025-08-29 15:59:51,923 - INFO - Loading dataset: hh_rlhf
+2025-08-29 15:59:53,724 - INFO - Loaded 300 examples for hh_rlhf
+2025-08-29 15:59:53,724 - INFO - 
+Running pairing: qwen_qwen
+2025-08-29 15:59:53,724 - INFO -   Dataset: arithmetic (100 examples)
+2025-08-29 16:01:03,899 - ERROR - Error in debate for example arithmetic_1: 'choices_csv'
+2025-08-29 16:02:02,958 - ERROR - Error in debate for example arithmetic_2: 'choices_csv'

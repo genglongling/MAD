@@ -1,0 +1,6 @@
+2025-08-29 17:13:44,136 - INFO - Starting benchmark run
+2025-08-29 17:13:44,137 - INFO - Loading dataset: arithmetic
+2025-08-29 17:13:44,161 - INFO - Loaded 1 examples for arithmetic
+2025-08-29 17:13:44,213 - INFO - 
+Running pairing: qwen_qwen
+2025-08-29 17:13:44,213 - INFO -   Dataset: arithmetic (1 examples)

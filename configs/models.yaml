@@ -1,1 +1,124 @@
-pairings: []
+# configs/models.yaml
+# Define agents for each pairing and the judge
+
+pairings:
+  # Commented out existing pairings
+  # gpt4_claude4:
+  #   A:
+  #     provider: openai
+  #     model: gpt-4
+  #     temperature: 0.3
+  #     max_tokens: 1024
+  #   B:
+  #     provider: anthropic
+  #     model: claude-4
+  #     temperature: 0.3
+  #     max_tokens: 1024
+  #   judge:
+  #     provider: openai
+  #     model: gpt-4
+  #     temperature: 0.2
+  #     max_tokens: 1024
+
+  # gpt4_gemini25pro:
+  #   A:
+  #     provider: openai
+  #     model: gpt-4
+  #     temperature: 0.3
+  #     max_tokens: 1024
+  #   B:
+  #     provider: google
+  #     model: gemini-2.5-pro
+  #     temperature: 0.3
+  #     max_tokens: 1024
+  #   judge:
+  #     provider: openai
+  #     model: gpt-4
+  #     temperature: 0.2
+  #     max_tokens: 1024
+
+  # claude4_gemini25pro:
+  #   A:
+  #     provider: anthropic
+  #     model: claude-4
+  #     temperature: 0.3
+  #     max_tokens: 1024
+  #   B:
+  #     provider: google
+  #     model: gemini-2.5-pro
+  #     temperature: 0.3
+  #     max_tokens: 1024
+  #   judge:
+  #     provider: openai
+  #     model: gpt-4
+  #     temperature: 0.2
+  #     max_tokens: 1024
+
+  # gpt4_gpt4:   # baseline self-debate with higher temperature
+  #   A:
+  #     provider: openai
+  #     model: gpt-4
+  #     temperature: 0.7
+  #     max_tokens: 1024
+  #   B:
+  #     provider: openai
+  #     model: gpt-4
+  #     temperature: 0.8
+  #     max_tokens: 1024
+  #   judge:
+  #     provider: openai
+  #     model: gpt-4
+  #     temperature: 0.2
+  #     max_tokens: 1024
+
+  # New pairings with Qwen2.5-7B-Instruct and Llama3.1-8B-Instruct
+  qwen_qwen:   # Qwen self-debate
+    A:
+      provider: local
+      model: Qwen/Qwen2.5-7B-Instruct
+      temperature: 0.7
+      max_tokens: 1024
+    B:
+      provider: local
+      model: Qwen/Qwen2.5-7B-Instruct
+      temperature: 0.8
+      max_tokens: 1024
+    judge:
+      provider: local
+      model: Qwen/Qwen2.5-7B-Instruct
+      temperature: 0.2
+      max_tokens: 2048  # Increased for judge to allow longer responses
+
+  qwen_llama:   # Qwen vs Llama
+    A:
+      provider: local
+      model: Qwen/Qwen2.5-7B-Instruct
+      temperature: 0.3
+      max_tokens: 1024
+    B:
+      provider: local
+      model: meta-llama/Meta-Llama-3.1-8B-Instruct
+      temperature: 0.3
+      max_tokens: 1024
+    judge:
+      provider: local
+      model: Qwen/Qwen2.5-7B-Instruct
+      temperature: 0.2
+      max_tokens: 2048  # Increased for judge to allow longer responses
+
+  llama_llama:   # Llama self-debate
+    A:
+      provider: local
+      model: meta-llama/Meta-Llama-3.1-8B-Instruct
+      temperature: 0.7
+      max_tokens: 1024
+    B:
+      provider: local
+      model: meta-llama/Meta-Llama-3.1-8B-Instruct
+      temperature: 0.8
+      max_tokens: 1024
+    judge:
+      provider: local
+      model: Qwen/Qwen2.5-7B-Instruct
+      temperature: 0.2
+      max_tokens: 2048  # Increased for judge to allow longer responses

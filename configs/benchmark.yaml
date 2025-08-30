@@ -1,2 +1,70 @@
-pairings: []
-datasets: []
+# configs/benchmark.yaml
+
+# Which pairings (keys) from configs/models.yaml to run
+pairings:
+  - qwen_qwen  # Qwen self-debate
+  # - qwen_llama  # Qwen vs Llama
+  # - llama_llama  # Llama self-debate
+
+# Which datasets (keys) from configs/datasets.yaml to run
+datasets:
+  - gsm8k              # Arithmetic reasoning
+  - mmlu_pro_med       # MMLU Professional Medicine
+  - mmlu_formal_logic  # MMLU Formal Logic
+  - hellaswag          # Commonsense reasoning
+  - commonsenseqa      # Commonsense QA
+  - hh_rlhf            # Helpful and Harmless RLHF
+  - arithmetic         # Arithmetic reasoning (100 generated)
+
+# Global run options
+run:
+  # limit examples per dataset for smoke tests; set to null to use full split
+  max_examples: null        # Now controlled per dataset in datasets.yaml
+  shuffle: true
+  seed: 42
+
+  # parallelization
+  num_workers: 1            # set based on API rate limits
+  batch_size: 1             # many APIs like 1-per-call for reliability
+
+  # timeouts & retries
+  request_timeout_s: 600
+  max_retries: 8
+  retry_backoff_s: 15
+
+  # debate protocol
+  rounds: 6                 # fixed in graph; here just a guard
+  with_judge: true          # judge after each round (r1..r6)
+  save_raw_model_output: true
+
+  # CRIT / facts (optional)
+  # If you built an index via scripts/build_fact_index.py, set path here.
+  facts_jsonl: null   # or null to disable
+
+# Paths
+io:
+  output_dir_runs: "results/runs"
+  output_dir_metrics: "results/metrics"
+  cache_dir: ".cache"
+
+# Prompt/config file locations (relative to repo root)
+configs:
+  models: "configs/models.yaml"
+  datasets: "configs/datasets.yaml"
+  prompts: "configs/prompts.yaml"
+
+# Table export controls (used by src/runners/export_table.py)
+export:
+  # default accuracy table
+  latex_accuracy:
+    outfile: "results/tables/accuracy.tex"
+    caption: "Accuracy (%) across pairings and datasets"
+    label: "tab:accuracy"
+
+  # info-theory per-round metrics (averaged across items)
+  latex_metrics:
+    enabled: true
+    outfile: "results/tables/round_metrics.tex"
+    metrics: ["KLD", "JSD", "WD", "MI", "H(A)", "IG(A)", "H(B)", "IG(B)", "AvgCRIT"]
+    caption: "Per-round information-theoretic metrics (mean over items)"
+    label: "tab:round-metrics"
